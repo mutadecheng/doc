@@ -1,1 +1,4 @@
+encoding:            "utf-8"
+
+# 指定转换的markdown文件后缀  https://juejin.cn/post/6844903629246169096
 markdown_ext:        "markdown"
