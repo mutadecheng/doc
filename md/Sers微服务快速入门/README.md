@@ -1,6 +1,7 @@
-[Sers微服务精简入门-目录](/sers/92 "解析Sers微服务-目录")
+[Sers微服务快速入门-00.目录](https://serset.github.io?md/Sers微服务快速入门/README.md "Sers微服务快速入门-00.目录")  
 
 
-[1. Sers简介](/sers/sers初识/96 "01. Sers简介")
-[2. 快速接入](/sers/sers初识/98 "02. 性能数据")
+[01.简介](https://serset.github.io?md/Sers微服务快速入门/01.简介.md "Sers微服务快速入门-01.简介")  
+[02.快速接入](https://serset.github.io?md/Sers微服务快速入门/02.快速接入.md "Sers微服务快速入门-02.快速接入")  
  
+未完待续
