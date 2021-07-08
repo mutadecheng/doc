@@ -1,0 +1,99 @@
+# Sers微服务快速入门-02.快速接入  
+  微服务给我们的第一映像是架构复杂庞大，部署起来非常麻烦。其实并非如此，不同的架构选型必然带来不同的优点和缺点，没有一劳永逸的方法，配置简单是因为仅适用特定的功能场景。在项目或产品的实际开发中往往随着时间的推进需要实现不同场景的功能，导致架构扩展，致使部署越来越复杂。  
+　　如果我们之前的代码没有使用微服务，现在随着产品要求商务要求等需要使用微服务怎么办？架构迁移是一件很耗时费力的事情，如果能有一套简洁的微服务方案，能够无需对原始代码进行修改即可进行微服务迁移就好了。  
+　　Sers就是这样的一套方案。Sers微服务是一套中心化的微服务架构，部署和接入非常简单。
+
+　　Sers提供了3种c#接入的方式（用户亦可自定义接入），Serslot是对net core web api的原生支持。无需修改原有web api代码，修改3处地方（仅一处代码）即可无缝接入。[点我查看源码](https://github.com/sersms/sersms.github.io/tree/master/code/SerslotDemo2.1.1.250)。[点我下载源码](https://sersms.github.io/file/demo/SerslotDemo2.1.1.250.zip)。
+
+## 1.添加nuget包引用
+>编辑csproj文件，添加如下代码，通过nuget安装Serslot
+
+```xml
+<ItemGroup>
+	<PackageReference Include="Sers.Serslot" Version="2.1.7" />
+</ItemGroup>
+```
+
+## 2.修改项目启动代码
+>编辑Program.cs文件，按照如下添加两行代码
+
+```csharp
+// Program.cs
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Vit.Extensions;   //----添加代码1
+
+namespace SerslotDemo
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateWebHostBuilder(args).Build().Run();
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseSerslot()  //----添加代码2
+                .UseStartup<Startup>();
+    }
+}
+
+```
+ 
+
+
+## 3.运行服务中心
+服务中心使用net core编写，请先安装[netcore2.1运行环境](https://sersms.github.io/?md/解析Sers微服务/0.1windows安装netcore2.1运行环境.md)。
+>windows安装[netcore2.1](https://dotnet.microsoft.com/download/dotnet/2.1) 运行环境很简单，下载[安装包](https://download.visualstudio.microsoft.com/download/pr/0d291e03-45d3-441e-8368-9e4b9ab183b4/b93203d22edecfcb17b6b479b54491df/dotnet-sdk-2.1.816-win-x64.exe) 进行安装即可。
+
+
+如果是在windows环境中，可以直接下载服务中心程序然后运行。
+下载[服务中心程序文件](https://sersms.github.io/file/Sers/Sers2.1.1.250/SersPublish2.1.1.250.zip)，解压，双击文件夹中的批处理文件“01 ServiceCenter.bat”即可。
+
+控制台有如下类似输出则代表服务中心启动成功。
+```
+[INFO][14:57:33.9310][WebHost]will listening on: http://*:4580
+[INFO][14:57:33.9323][WebHost]wwwroot : ......\wwwroot
+Hosting environment: Production
+Content root path: ......\Sers2.1.1.250\ServiceCenter
+Now listening on: http://[::]:4580
+Application started. Press Ctrl+C to shut down.
+```
+
+ ## 5.运行程序
+ 运行程序，在服务中心的控制台看到如下输出则代表服务接入成功
+ 
+ ```
+[INFO][15:32:51.3471][CL] OnConnected,connTag:
+[INFO][15:32:51.5732][ApiCenterService]Regist serviceStation,stationName:
+[INFO][15:32:51.5744][ApiCenterService]Add ApiNode,serviceKey:/api/Values/*_DELETE
+[INFO][15:32:51.5820][ApiCenterService]Add ApiNode,serviceKey:/api/Values_GET
+[INFO][15:32:51.5832][ApiCenterService]Add ApiNode,serviceKey:/api/Values/*_GET
+[INFO][15:32:51.5855][ApiCenterService]Add ApiNode,serviceKey:/api/Values_POST
+[INFO][15:32:51.5870][ApiCenterService]Add ApiNode,serviceKey:/api/Values/*_PUT
+```
+ 
+ 打开地址 <http://localhost:4580/api/Values>,得到如下返回：
+ ```json
+["value1","value2"]
+```
+ 说明我们的api注册到服务中心，并被成功调用了。
+ 
+
+
+
+
+
+
+
+
+
+ 
