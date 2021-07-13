@@ -1,0 +1,184 @@
+#构建多架构镜像
+
+#登录
+# docker login -u serset -p xxxxxxx
+
+#---------------------------------------------------------------------
+#(x.1)初始化构建器
+
+#启用 buildx 插件
+export DOCKER_CLI_EXPERIMENTAL=enabled
+
+#验证是否开启
+docker buildx version
+
+#启用 binfmt_misc
+docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
+
+#验证是 binfmt_misc 否开启
+ls -al /proc/sys/fs/binfmt_misc/
+
+
+#创建一个新的构建器
+docker buildx create --use --name mybuilder
+
+#启动构建器
+docker buildx inspect mybuilder --bootstrap
+
+#查看当前使用的构建器及构建器支持的 CPU 架构，可以看到支持很多 CPU 架构
+docker buildx ls
+
+
+
+
+#---------------------------------------------------------------------
+#(x.2)把本文件所在目录下的文件夹拷贝到image
+
+
+
+
+
+#---------------------------------------------------------------------
+# (x.3)构建多架构镜像-aspnet
+
+# (x.x.1)分架构创建镜像
+
+#构建镜像
+cd /root/image/dotnet_2.1-aspnet-amd64
+docker buildx build -t serset/dotnet:2.1-aspnet-amd64 --platform=linux/amd64 -o type=docker .
+cd /root/image/dotnet_2.1-aspnet-arm
+docker buildx build -t serset/dotnet:2.1-aspnet-arm64 --platform=linux/arm64 -o type=docker .
+docker buildx build -t serset/dotnet:2.1-aspnet-arm --platform=linux/arm/v7 -o type=docker .
+
+#推送到镜像服务器
+docker push serset/dotnet:2.1-aspnet-amd64
+docker push serset/dotnet:2.1-aspnet-arm64
+docker push serset/dotnet:2.1-aspnet-arm
+
+
+# (x.x.2)创建 manifest
+
+#创建 manifest 列表
+
+docker manifest rm serset/dotnet:2.1-aspnet
+docker manifest create serset/dotnet:2.1-aspnet serset/dotnet:2.1-aspnet-amd64 serset/dotnet:2.1-aspnet-arm64 serset/dotnet:2.1-aspnet-arm
+
+#设置 manifest 列表
+#docker manifest annotate serset/dotnet:2.1-aspnet serset/dotnet:2.1-aspnet-amd64 --os linux --arch amd64
+#docker manifest annotate serset/dotnet:2.1-aspnet serset/dotnet:2.1-aspnet-arm64 --os linux --arch arm64
+#docker manifest annotate serset/dotnet:2.1-aspnet serset/dotnet:2.1-aspnet-arm --os linux --arch arm
+
+#查看 manifest 列表
+docker manifest inspect serset/dotnet:2.1-aspnet
+
+#推送manifest到镜像服务器
+docker manifest push serset/dotnet:2.1-aspnet
+
+
+
+
+#---------------------------------------------------------------------
+# (x.4)构建多架构镜像-runtime
+
+# (x.x.1)分架构创建镜像
+
+#构建镜像
+cd /root/image/dotnet_2.1-runtime-amd64
+docker buildx build -t serset/dotnet:2.1-runtime-amd64 --platform=linux/amd64 -o type=docker .
+cd /root/image/dotnet_2.1-runtime-arm
+docker buildx build -t serset/dotnet:2.1-runtime-arm64 --platform=linux/arm64 -o type=docker .
+docker buildx build -t serset/dotnet:2.1-runtime-arm --platform=linux/arm/v7 -o type=docker .
+
+#推送到镜像服务器
+docker push serset/dotnet:2.1-runtime-amd64
+docker push serset/dotnet:2.1-runtime-arm64
+docker push serset/dotnet:2.1-runtime-arm
+
+
+# (x.x.2)创建 manifest
+
+#创建 manifest 列表
+
+docker manifest rm serset/dotnet:2.1-runtime
+docker manifest create serset/dotnet:2.1-runtime serset/dotnet:2.1-runtime-amd64 serset/dotnet:2.1-runtime-arm64 serset/dotnet:2.1-runtime-arm
+
+#设置 manifest 列表
+#docker manifest annotate serset/dotnet:2.1-runtime serset/dotnet:2.1-runtime-amd64 --os linux --arch amd64
+#docker manifest annotate serset/dotnet:2.1-runtime serset/dotnet:2.1-runtime-arm64 --os linux --arch arm64
+#docker manifest annotate serset/dotnet:2.1-runtime serset/dotnet:2.1-runtime-arm --os linux --arch arm
+
+#查看 manifest 列表
+docker manifest inspect serset/dotnet:2.1-runtime
+
+#推送manifest到镜像服务器
+docker manifest push serset/dotnet:2.1-runtime
+
+
+
+
+
+#---------------------------------------------------------------------
+# (x.5)构建多架构镜像-sdk
+
+# (x.x.1)分架构创建镜像
+
+#构建镜像
+cd /root/image/dotnet_2.1-sdk-amd64
+docker buildx build -t serset/dotnet:2.1-sdk-amd64 --platform=linux/amd64 -o type=docker .
+cd /root/image/dotnet_2.1-sdk-arm
+docker buildx build -t serset/dotnet:2.1-sdk-arm64 --platform=linux/arm64 -o type=docker .
+docker buildx build -t serset/dotnet:2.1-sdk-arm --platform=linux/arm/v7 -o type=docker .
+
+#推送到镜像服务器
+docker push serset/dotnet:2.1-sdk-amd64
+docker push serset/dotnet:2.1-sdk-arm64
+docker push serset/dotnet:2.1-sdk-arm
+
+
+# (x.x.2)创建 manifest
+
+#创建 manifest 列表
+
+docker manifest rm serset/dotnet:2.1-sdk
+docker manifest create serset/dotnet:2.1-sdk serset/dotnet:2.1-sdk-amd64 serset/dotnet:2.1-sdk-arm64 serset/dotnet:2.1-sdk-arm
+
+#设置 manifest 列表
+#docker manifest annotate serset/dotnet:2.1-sdk serset/dotnet:2.1-sdk-amd64 --os linux --arch amd64
+#docker manifest annotate serset/dotnet:2.1-sdk serset/dotnet:2.1-sdk-arm64 --os linux --arch arm64
+#docker manifest annotate serset/dotnet:2.1-sdk serset/dotnet:2.1-sdk-arm --os linux --arch arm
+
+#查看 manifest 列表
+docker manifest inspect serset/dotnet:2.1-sdk
+
+#推送manifest到镜像服务器
+docker manifest push serset/dotnet:2.1-sdk
+
+
+
+
+
+
+#---------------------------------------------------------------------
+# (x.6)构建默认镜像
+
+#创建 manifest 列表
+
+docker manifest rm serset/dotnet:2.1
+docker manifest create serset/dotnet:2.1 serset/dotnet:2.1-aspnet-amd64 serset/dotnet:2.1-aspnet-arm64 serset/dotnet:2.1-aspnet-arm
+
+#设置 manifest 列表
+#docker manifest annotate serset/dotnet:2.1 serset/dotnet:2.1-aspnet-amd64 --os linux --arch amd64
+#docker manifest annotate serset/dotnet:2.1 serset/dotnet:2.1-aspnet-arm64 --os linux --arch arm64
+#docker manifest annotate serset/dotnet:2.1 serset/dotnet:2.1-aspnet-arm --os linux --arch arm
+
+#查看 manifest 列表
+docker manifest inspect serset/dotnet:2.1
+
+#推送manifest到镜像服务器
+docker manifest push serset/dotnet:2.1
+
+
+#---------------------------------------------------------------------
+ 
+#删除镜像
+# docker rmi --force $(docker images | grep dotnet | awk '{print $3}')

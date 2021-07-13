@@ -1,0 +1,29 @@
+使用Google BBR加速 VPS
+
+https://www.cnblogs.com/lianshuiwuyi/p/10689731.html
+https://www.codercto.com/a/25431.html
+
+
+
+
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+
+reboot
+//安装完成后需要重启系统
+
+
+/查看内核版本命令：
+uname -r
+
+
+//检查BBR是否启动
+sysctl net.ipv4.tcp_available_congestion_control
+　　返回值一般为：
+　　net.ipv4.tcp_available_congestion_control = bbr cubic reno
+	或者为：
+　　net.ipv4.tcp_available_congestion_control = reno cubic bbr
+
+
+lsmod | grep bbr
+　　返回值：
+	tcp_bbr                20480

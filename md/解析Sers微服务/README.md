@@ -36,5 +36,5 @@
 
 附录  
 [附录01-windows安装netcore2.1运行环境](?doc/md/解析Sers微服务/附录01-windows安装netcore2.1运行环境.md "附录01-windows安装netcore2.1运行环境")  
-[附录02-HowToRun](?doc/md/解析Sers微服务/附录02-HowToRun "附录02-HowToRun")  
+[附录02-HowToRun](?doc/md/解析Sers微服务/附录02-HowToRun.md "附录02-HowToRun")  
 

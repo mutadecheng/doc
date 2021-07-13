@@ -1,0 +1,53 @@
+
+ 
+
+# https://www.cnblogs.com/woailibian/p/7258763.html
+
+
+# vs2019 vs2017u5  vs2017u1
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2017u5 -l  ~/vsdbg
+
+COPY ./vsdbg /root/.vs-debugger
+RUN chmod 777 /root/.vs-debugger
+
+-------------------------------------------------------------------------------
+远程调试
+
+
+https://www.cnblogs.com/draweye/p/11081529.html
+https://www.cnblogs.com/woailibian/p/7258763.html 
+https://www.cnblogs.com/Gool/p/9781414.html
+
+
+
+
+https://vsdebugger.blob.core.windows.net/vsdbg-16-3-10904-1/GetVsDbg.sh
+https://vsdebugger.azureedge.net/vsdbg-16-3-10904-1/vsdbg-linux-x64.zip
+ 
+
+-------------
+GetVsDbg.sh 做两件事 
+  1.下载并解压vsdbg-linux-x64.zip 
+  2.赋予文件vsdbg执行权限
+
+
+解压目录为 /root/.vs-debugger/vs2017u5
+文件vsdbg在解压目录下
+
+-------------
+远程进入docker 执行以下命令
+
+chmod 777 /root/.vs-debugger/GetVsDbg.sh
+/root/.vs-debugger/GetVsDbg.sh -v vs2017u5 -l /root/.vs-debugger/vs2017u5
+
+
+chmod +x /root/.vs-debugger/vs2017u5/vsdbg
+
+ 
+-------------
+#install vs-debugger Dockerfile
+COPY ./.vs-debugger /root/.vs-debugger
+RUN chmod +x /root/.vs-debugger
+
+-------------
+ ps -ef | grep sh
