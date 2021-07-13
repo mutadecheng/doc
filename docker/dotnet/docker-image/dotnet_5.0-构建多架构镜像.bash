@@ -1,7 +1,6 @@
-﻿#构建多架构镜像
+#构建多架构镜像
 
-#登录
-# docker login -u serset -p xxxxxxx
+
 
 #---------------------------------------------------------------------
 #(x.1)初始化构建器
@@ -31,27 +30,39 @@ docker buildx ls
 
 
 #---------------------------------------------------------------------
-#(x.2)分架构创建镜像
-
-#把本文件所在目录下的文件夹拷贝到image
-
-#构建支持 arm、arm64 和 amd64 多架构的 Docker 镜像，同时将其推送到 Docker Hub
-
-cd /root/image
-
-
-
-cd dotnet_5.0-aspnet
-docker buildx build -t serset/dotnet:5.0-aspnet -t serset/dotnet:5.0 --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
-cd ..
+#(x.2)构建支持arm、arm64和amd64多架构的Docker镜像，并推送到Docker Hub
 
 #若失败则可先尝试逐个平台构建
-cd dotnet_5.0-sdk
-docker buildx build -t serset/dotnet:5.0-sdk --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+#把本文件所在目录下的文件夹拷贝到image
+# cd /root/image
+
+#登录
+# docker login -u serset -p xxxxxxx
+
+
+#get version
+version=`docker run -it --rm mcr.microsoft.com/dotnet/runtime:5.0 dotnet --info | grep Version`
+version=`echo ${version#*:} | sed 's/ //g'`
+echo $version
+
+
+
+
+cd dotnet_aspnet-5.0
+docker buildx build \
+-t serset/dotnet:aspnet-5.0 -t serset/dotnet:aspnet-$version \
+-t serset/dotnet:5.0 -t serset/dotnet:$version \
+--platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
 cd ..
 
-cd dotnet_5.0-runtime
-docker buildx build -t serset/dotnet:5.0-runtime --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+
+cd dotnet_runtime-5.0
+docker buildx build -t serset/dotnet:runtime-5.0 -t serset/dotnet:runtime-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+cd ..
+
+
+cd dotnet_sdk-5.0
+docker buildx build -t serset/dotnet:sdk-5.0 -t serset/dotnet:sdk-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
 cd ..
 
 
@@ -59,7 +70,5 @@ cd ..
 
 
 #--------------------------------------------------------------------- 
-
- 
 #删除镜像
 # docker rmi --force $(docker images | grep dotnet | awk '{print $3}')
