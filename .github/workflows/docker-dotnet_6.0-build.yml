@@ -45,28 +45,33 @@ jobs:
            docker buildx inspect mybuilder --bootstrap
            
            
-           
-           echo "(x.2)构建镜像，并推送到Docker Hub"
-           
-           curDate="`date +%Y%m%d`"
-           echo "curDate: $curDate"
-           
-           #登录
+           echo (x.2)登录
            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
            
-           cd dotnet_6.0-runtime
-           docker buildx build -t serset/dotnet:6.0-runtime -t serset/dotnet:6.0-runtime-$curDate --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
-           cd ..
            
-           cd dotnet_6.0-aspnet
+           echo (x.3)get version
+           version=`docker run -it --rm mcr.microsoft.com/dotnet/runtime:6.0 dotnet --info | grep Version`
+           version=`echo ${version#*:} | sed 's/ //g'`
+           echo $version
+           
+           
+           echo "(x.4)构建镜像并推送到Docker Hub"
+           
+           cd dotnet_aspnet-6.0
            docker buildx build \
-           -t serset/dotnet:6.0-aspnet -t serset/dotnet:6.0-aspnet-$curDate \
-           -t serset/dotnet:6.0 -t serset/dotnet:6.0-$curDate \
+           -t serset/dotnet:aspnet-6.0 -t serset/dotnet:aspnet-$version \
+           -t serset/dotnet:6.0 -t serset/dotnet:$version \
            --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
            cd ..
            
-           cd dotnet_6.0-sdk
-           docker buildx build -t serset/dotnet:6.0-sdk -t serset/dotnet:6.0-sdk-$curDate --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+           
+           cd dotnet_runtime-6.0
+           docker buildx build -t serset/dotnet:runtime-6.0 -t serset/dotnet:runtime-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+           cd ..
+           
+           
+           cd dotnet_sdk-6.0
+           docker buildx build -t serset/dotnet:sdk-6.0 -t serset/dotnet:sdk-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
            cd ..
            
            echo build succeed!

@@ -32,33 +32,37 @@ docker buildx ls
 #---------------------------------------------------------------------
 #(x.2)构建支持 arm、arm64 和 amd64 多架构的 Docker 镜像，同时将其推送到 Docker Hub
 
-
+#若失败则可先尝试逐个平台构建
 #把本文件所在目录下的文件夹拷贝到image
 # cd /root/image
-
-
-curDate="`date +%Y%m%d`"
-echo "curDate: $curDate"
-
 
 #登录
 # docker login -u serset -p xxxxxxx
 
 
-cd dotnet_6.0-aspnet
+#get version
+version=`docker run -it --rm mcr.microsoft.com/dotnet/runtime:6.0 dotnet --info | grep Version`
+version=`echo ${version#*:} | sed 's/ //g'`
+echo $version
+
+
+
+
+cd dotnet_aspnet-6.0
 docker buildx build \
--t serset/dotnet:6.0-aspnet -t serset/dotnet:6.0-aspnet-$curDate \
--t serset/dotnet:6.0 -t serset/dotnet:6.0-$curDate \
+-t serset/dotnet:aspnet-6.0 -t serset/dotnet:aspnet-$version \
+-t serset/dotnet:6.0 -t serset/dotnet:$version \
 --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
 cd ..
 
-#若失败则可先尝试逐个平台构建
-cd dotnet_6.0-sdk
-docker buildx build -t serset/dotnet:6.0-sdk -t serset/dotnet:6.0-sdk-$curDate --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+
+cd dotnet_runtime-6.0
+docker buildx build -t serset/dotnet:runtime-6.0 -t serset/dotnet:runtime-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
 cd ..
 
-cd dotnet_6.0-runtime
-docker buildx build -t serset/dotnet:6.0-runtime -t serset/dotnet:6.0-runtime-$curDate --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+
+cd dotnet_sdk-6.0
+docker buildx build -t serset/dotnet:sdk-6.0 -t serset/dotnet:sdk-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
 cd ..
 
 
