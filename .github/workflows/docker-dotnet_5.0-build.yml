@@ -60,7 +60,7 @@ jobs:
            cd dotnet_aspnet-5.0
            docker buildx build \
            -t serset/dotnet:aspnet-5.0 -t serset/dotnet:aspnet-$version \
-           -t serset/dotnet:5.0 -t serset/dotnet:$version \
+           -t serset/dotnet:5.0 \
            --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
            cd ..
            

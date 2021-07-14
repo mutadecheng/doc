@@ -41,28 +41,28 @@ docker buildx ls
 
 
 #get version
-version=`docker run -i --rm mcr.microsoft.com/dotnet/runtime:6.0 dotnet --info | grep Version`
+version=`docker run -i --rm mcr.microsoft.com/dotnet/runtime:3.1 dotnet --info | grep Version`
 version=`echo ${version#*:} | sed 's/ //g'`
 echo $version
 
 
 
 
-cd dotnet_aspnet-6.0
+cd dotnet_aspnet-3.1
 docker buildx build \
--t serset/dotnet:aspnet-6.0 -t serset/dotnet:aspnet-$version \
--t serset/dotnet:6.0 \
+-t serset/dotnet:aspnet-3.1 -t serset/dotnet:aspnet-$version \
+-t serset/dotnet:3.1 \
 --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
 cd ..
 
 
-cd dotnet_runtime-6.0
-docker buildx build -t serset/dotnet:runtime-6.0 -t serset/dotnet:runtime-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+cd dotnet_runtime-3.1
+docker buildx build -t serset/dotnet:runtime-3.1 -t serset/dotnet:runtime-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
 cd ..
 
 
-cd dotnet_sdk-6.0
-docker buildx build -t serset/dotnet:sdk-6.0 -t serset/dotnet:sdk-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
+cd dotnet_sdk-3.1
+docker buildx build -t serset/dotnet:sdk-3.1 -t serset/dotnet:sdk-$version --platform=linux/arm/v7,linux/arm64,linux/amd64 . --push
 cd ..
 
 

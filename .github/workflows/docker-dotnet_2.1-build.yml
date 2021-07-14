@@ -1,0 +1,135 @@
+# This is a basic workflow to help you get started with Actions
+
+name: docker-dotnet_2.1-build
+
+# Controls when the action will run. 
+on:
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: build image
+        run: |
+           set -e
+
+           echo "start build"
+           export DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME  }}"
+           export DOCKER_PASSWORD="${{ secrets.DOCKER_PASSWORD }}"
+
+           cd ./docker/dotnet/docker-image
+           
+
+           echo "(x.1)初始化构建器"
+           #启用 buildx 插件
+           export DOCKER_CLI_EXPERIMENTAL=enabled
+           #启用 binfmt_misc
+           docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
+           #验证是 binfmt_misc 否开启
+           ls -al /proc/sys/fs/binfmt_misc/
+           #创建一个新的构建器
+           docker buildx create --use --name mybuilder
+           #启动构建器
+           docker buildx inspect mybuilder --bootstrap
+           
+           
+           echo "(x.2)登录"
+           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+           
+                      
+                      
+           
+           echo "(x.3)构建多架构镜像-aspnet"
+           
+           cd dotnet_aspnet-2.1-amd64
+           docker buildx build -t serset/dotnet:aspnet-2.1-amd64 --platform=linux/amd64 -o type=docker .
+           cd ..
+           
+           cd dotnet_aspnet-2.1-arm
+           docker buildx build -t serset/dotnet:aspnet-2.1-arm64 --platform=linux/arm64 -o type=docker .
+           docker buildx build -t serset/dotnet:aspnet-2.1-arm --platform=linux/arm/v7 -o type=docker .
+           cd ..
+           
+           docker push serset/dotnet:aspnet-2.1-amd64
+           docker push serset/dotnet:aspnet-2.1-arm64
+           docker push serset/dotnet:aspnet-2.1-arm
+           
+           docker manifest create serset/dotnet:aspnet-2.1 serset/dotnet:aspnet-2.1-amd64 serset/dotnet:aspnet-2.1-arm64 serset/dotnet:aspnet-2.1-arm
+           docker manifest annotate serset/dotnet:aspnet-2.1 serset/dotnet:aspnet-2.1-amd64 --os linux --arch amd64
+           docker manifest annotate serset/dotnet:aspnet-2.1 serset/dotnet:aspnet-2.1-arm64 --os linux --arch arm64
+           docker manifest annotate serset/dotnet:aspnet-2.1 serset/dotnet:aspnet-2.1-arm --os linux --arch arm
+           docker manifest push serset/dotnet:aspnet-2.1
+           
+           
+           
+           
+           echo "(x.4)构建多架构镜像-runtime"
+           
+           cd dotnet_runtime-2.1-amd64
+           docker buildx build -t serset/dotnet:runtime-2.1-amd64 --platform=linux/amd64 -o type=docker .
+           cd ..
+           
+           cd dotnet_runtime-2.1-arm
+           docker buildx build -t serset/dotnet:runtime-2.1-arm64 --platform=linux/arm64 -o type=docker .
+           docker buildx build -t serset/dotnet:runtime-2.1-arm --platform=linux/arm/v7 -o type=docker .
+           cd ..
+           
+           docker push serset/dotnet:runtime-2.1-amd64
+           docker push serset/dotnet:runtime-2.1-arm64
+           docker push serset/dotnet:runtime-2.1-arm
+           
+           docker manifest create serset/dotnet:runtime-2.1 serset/dotnet:runtime-2.1-amd64 serset/dotnet:runtime-2.1-arm64 serset/dotnet:runtime-2.1-arm
+           docker manifest annotate serset/dotnet:runtime-2.1 serset/dotnet:runtime-2.1-amd64 --os linux --arch amd64
+           docker manifest annotate serset/dotnet:runtime-2.1 serset/dotnet:runtime-2.1-arm64 --os linux --arch arm64
+           docker manifest annotate serset/dotnet:runtime-2.1 serset/dotnet:runtime-2.1-arm --os linux --arch arm
+           docker manifest push serset/dotnet:runtime-2.1
+           
+           
+           
+           
+           
+           echo "(x.5)构建多架构镜像-sdk"
+           
+           cd dotnet_sdk-2.1-amd64
+           docker buildx build -t serset/dotnet:sdk-2.1-amd64 --platform=linux/amd64 -o type=docker .
+           cd ..
+           
+           cd dotnet_sdk-2.1-arm
+           docker buildx build -t serset/dotnet:sdk-2.1-arm64 --platform=linux/arm64 -o type=docker .
+           docker buildx build -t serset/dotnet:sdk-2.1-arm --platform=linux/arm/v7 -o type=docker .
+           cd ..
+           
+           docker push serset/dotnet:sdk-2.1-amd64
+           docker push serset/dotnet:sdk-2.1-arm64
+           docker push serset/dotnet:sdk-2.1-arm
+           
+           docker manifest create serset/dotnet:sdk-2.1 serset/dotnet:sdk-2.1-amd64 serset/dotnet:sdk-2.1-arm64 serset/dotnet:sdk-2.1-arm
+           docker manifest annotate serset/dotnet:sdk-2.1 serset/dotnet:sdk-2.1-amd64 --os linux --arch amd64
+           docker manifest annotate serset/dotnet:sdk-2.1 serset/dotnet:sdk-2.1-arm64 --os linux --arch arm64
+           docker manifest annotate serset/dotnet:sdk-2.1 serset/dotnet:sdk-2.1-arm --os linux --arch arm
+           docker manifest push serset/dotnet:sdk-2.1
+           
+           
+           
+           
+           echo "(x.6)构建默认镜像"
+           docker manifest create serset/dotnet:2.1 serset/dotnet:aspnet-2.1-amd64 serset/dotnet:aspnet-2.1-arm64 serset/dotnet:aspnet-2.1-arm
+           docker manifest annotate serset/dotnet:2.1 serset/dotnet:aspnet-2.1-amd64 --os linux --arch amd64
+           docker manifest annotate serset/dotnet:2.1 serset/dotnet:aspnet-2.1-arm64 --os linux --arch arm64
+           docker manifest annotate serset/dotnet:2.1 serset/dotnet:aspnet-2.1-arm --os linux --arch arm
+           docker manifest push serset/dotnet:2.1
+           
+                      
+           echo "build succeed!"
