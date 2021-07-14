@@ -1,6 +1,34 @@
 # docker部署dotnet
- 
-# 1.创建文件夹
+
+# (1)目前支持版本  
+>版本规则为   serset/dotnet:{sdk|runtime|aspnet}-{version} 。 如 serset/dotnet:sdk-6.0  
+
+## 6.0
+serset/dotnet:aspnet-6.0  
+serset/dotnet:runtime-6.0  
+serset/dotnet:sdk-6.0   
+serset/dotnet:6.0   (等同serset/dotnet:aspnet-6.0)   
+
+## 5.0
+serset/dotnet:aspnet-5.0  
+serset/dotnet:runtime-5.0  
+serset/dotnet:sdk-5.0  
+serset/dotnet:5.0   (等同serset/dotnet:aspnet-5.0)   
+
+## 3.1  
+serset/dotnet:aspnet-3.1  
+serset/dotnet:runtime-3.1  
+serset/dotnet:sdk-3.1  
+serset/dotnet:3.1   (等同serset/dotnet:aspnet-3.1)   
+
+## 2.1  
+serset/dotnet:aspnet-2.1  
+serset/dotnet:runtime-2.1  
+serset/dotnet:sdk-2.1  
+serset/dotnet:2.1   (等同serset/dotnet:aspnet-2.1)   
+
+# (x.2)部署
+## (x.x.1)创建文件夹
 > 创建文件目标文件夹/root/docker/app1,把部署文件拷贝进去  
 > 创建 startup.sh 文件并指定启动命令(按实际情况修改)  
 
@@ -31,7 +59,7 @@ dotnet app1.dll
 ```
 
 
-# 2.创建容器并运行
+## (x.x.2)创建容器并运行
 > --name 容器名称，可自定义  
 > --restart=always 自动重启  
 > -v /etc/localtime:/etc/localtime 挂载宿主机localtime文件解决容器时间与主机时区不一致的问题  
@@ -50,7 +78,7 @@ serset/dotnet:2.1
 
 ```
 
-# 3.容器常用命令
+## (x.x.3)容器常用命令
 
 ``` bash
 #查看容器logs

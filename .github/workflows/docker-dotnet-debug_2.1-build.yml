@@ -1,0 +1,65 @@
+# This is a basic workflow to help you get started with Actions
+
+name: docker-dotnet_2.1-build
+
+# Controls when the action will run. 
+on:
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: build image
+        run: |
+           set -e
+
+           echo "start build"
+           export DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME  }}"
+           export DOCKER_PASSWORD="${{ secrets.DOCKER_PASSWORD }}"
+
+           cd ./docker/dotnet/docker-image
+           
+
+           echo "(x.1)初始化构建器"
+           #启用 buildx 插件
+           export DOCKER_CLI_EXPERIMENTAL=enabled
+           #启用 binfmt_misc
+           docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
+           #验证是 binfmt_misc 否开启
+           ls -al /proc/sys/fs/binfmt_misc/
+           #创建一个新的构建器
+           docker buildx create --use --name mybuilder
+           #启动构建器
+           docker buildx inspect mybuilder --bootstrap
+           
+           
+           echo "(x.2)登录"
+           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+           
+                      
+                      
+           
+           echo "(x.3)构建镜像"
+           
+           cd dotnet-debug_2.1
+           docker build -t serset/dotnet-debug:2.1 . 
+           cd ..
+           
+           #推送到镜像仓库
+           docker push serset/dotnet-debug:2.1
+            
+                      
+                                 
+           echo "build succeed!"
