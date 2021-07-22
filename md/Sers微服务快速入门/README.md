@@ -1,7 +1,9 @@
-[Sers微服务快速入门-00.目录](https://serset.github.io?doc/md/Sers微服务快速入门/README.md "Sers微服务快速入门-00.目录")  
+[Sers微服务快速入门-目录](/?doc/md/Sers微服务快速入门/README.md "Sers微服务快速入门-目录")  
 
 
-[01.简介](https://serset.github.io?doc/md/Sers微服务快速入门/01.简介.md "Sers微服务快速入门-01.简介")  
-[02.快速接入](https://serset.github.io?doc/md/Sers微服务快速入门/02.快速接入.md "Sers微服务快速入门-02.快速接入")  
- 
+[01.Sers简介](/?doc/md/Sers微服务快速入门/01.Sers简介.md "Sers微服务快速入门-01.Sers简介")  
+[02.NetCore快速接入](/?doc/md/Sers微服务快速入门/02.NetCore快速接入.md "Sers微服务快速入门-02.NetCore快速接入")  
+[03.Demo解析](/?doc/md/Sers微服务快速入门/03.Demo解析.md "Sers微服务快速入门-03.Demo解析")  
+
+
 未完待续

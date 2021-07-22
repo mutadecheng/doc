@@ -1,5 +1,7 @@
 #安装docker
-curl https://raw.githubusercontent.com/serset/doc/master/file/shell/centos7/docker.sh|bash
+#curl https://raw.githubusercontent.com/serset/doc/master/file/shell/centos7/docker.sh|bash
+curl https://serset.github.io/doc/file/shell/centos7/docker.sh|bash
+
 
 
 #创建ss容器

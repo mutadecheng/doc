@@ -1,6 +1,8 @@
 # docker部署dotnet
+> 构建镜像：  https://github.com/serset/doc/tree/master/docker/dotnet/docker-image  
+> 部署容器： https://github.com/serset/doc/tree/master/docker/dotnet/docker-deploy/app1  
 
-# (1)目前支持版本  
+# (x.1)支持版本  
 >版本规则为   serset/dotnet:{sdk|runtime|aspnet}-{version} 。 如 serset/dotnet:sdk-6.0  
 
 ## 6.0

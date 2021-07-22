@@ -12,7 +12,6 @@
 
 
 第三章 Serslot入门  
-[3.1-Serslot之HelloWorld](?doc/md/解析Sers微服务/3.1-Serslot之HelloWorld.md "3.1-Serslot之HelloWorld")  
 [3.2-Serslot之概要介绍](?doc/md/解析Sers微服务/3.2-Serslot之概要介绍.md "3.2-Serslot之概要介绍")  
 [3.3-Serslot之Demo完全解析](?doc/md/解析Sers微服务/3.3-Serslot之Demo完全解析.md "3.3-Serslot之Demo完全解析")  
 

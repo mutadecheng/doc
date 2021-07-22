@@ -12,6 +12,9 @@
 
 [NetCore](/?doc/md/NetCore/README.md "NetCore")  
 
+[download](/?doc/md/download/README.md "download")  
+
+
 # 工具
 
 [markdown在线编辑器](/Scripts/editormd/demo/editor.html "markdown在线编辑器")  

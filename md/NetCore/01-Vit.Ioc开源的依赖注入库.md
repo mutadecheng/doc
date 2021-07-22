@@ -1,7 +1,6 @@
-# Vit.Ioc 
-在ASP.NET Core中，我们一般会用到自带的IOC容器，或者使用第三方IOC容器（如Autofac）。自带容器不支持配置文件注入，而第三方又过于庞大，接下来介绍的Vit.Ioc是一套开源的依赖注入库，它可以通过配置文件实现依赖注入，最重要的是，它使用起来非常简单！简单！简单！
-[源码地址](https://github.com/serset/Vit.Ioc)
-我们用一个例子说明Vit.Ioc的所有用法。
+# Vit.Ioc-开源的依赖注入库 
+在ASP.NET Core中，我们一般会用到自带的IOC容器，或者使用第三方IOC容器（如Autofac）。自带容器不支持配置文件注入，而第三方又过于庞大，接下来介绍的Vit.Ioc是一套开源的依赖注入库，它可以通过配置文件实现依赖注入，最重要的是，它使用起来非常简单！简单！简单！[源码地址](https://github.com/serset/Vit.Ioc)  
+我们用一个例子说明Vit.Ioc的所有用法。  
 
 # (x.1)一个不使用Vit.Ioc的例子
 首先，我们创建一个普通的Web项目，我们看一下它的3个cs文件
@@ -161,7 +160,7 @@ namespace Demo.Controllers
 
 
 # (x.2)使用Vit.Ioc的例子
-上面是不使用Vit.Ioc的例子，现在我们看一下使用Vit.Ioc后是什么样子。
+上面是不使用Vit.Ioc的例子，现在我们看一下使用Vit.Ioc后是什么样子。[代码地址](https://github.com/serset/Vit.Ioc/tree/main/Demo/Vit.Ioc.Demo)
 
 ```csharp
 //Program.cs
@@ -188,6 +187,7 @@ namespace App
 ```
 
 ```csharp
+//Startup.cs
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -216,7 +216,7 @@ namespace App
 }
 ```
 
-```csharp
+```json
 //appsettings.json
 {
   "Ioc": {
@@ -286,7 +286,6 @@ namespace App
   "AllowedHosts": "*"
 }
 ```
-[代码地址](https://github.com/serset/Vit.Ioc/tree/main/Demo/Vit.Ioc.Demo)
 可以看到，代码注入的三处地方 (ori.1)、(ori.2)、(ori.3) 都通过配置文件进行了实现，而在Program.cs文件中多了一行
 ```csharp
                 .Populate()//(demo.2)
