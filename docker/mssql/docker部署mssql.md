@@ -2,16 +2,15 @@
 > 参考 https://segmentfault.com/a/1190000014232366
 > https://hub.docker.com/_/microsoft-mssql-server
 
+#获取镜像的标签列表
+https://mcr.microsoft.com/v2/mssql/server/tags/list
 
 
-docker pull microsoft/mssql-server-linux:2017-latest
-
-docker pull microsoft/mssql-server-linux:2019-latest
-
+docker pull mcr.microsoft.com/mssql/server:2017-latest
 docker pull mcr.microsoft.com/mssql/server:2019-latest
-docker tag mcr.microsoft.com/mssql/server:2019-latest  microsoft/mssql-server-linux:2019-latest
-docker rmi mcr.microsoft.com/mssql/server:2019-latest
+docker pull mcr.microsoft.com/mssql/server:2019-CU11-ubuntu-20.04
 
+ 
 
 # 1.创建文件夹
 > 把部署文件（本文件夹）拷贝进去
@@ -24,7 +23,7 @@ docker rmi mcr.microsoft.com/mssql/server:2019-latest
 > -v $PWD/data:/data 将主机中当前目录下的data挂载到容器的/data  
 > --net=host 网络直接使用宿主机网络  
 > -p 6022:6022 端口映射  
-> -e MYSQL_ROOT_PASSWORD=123456：初始化 root 用户的密码
+> -e 环境变量
 
 ``` bash
  
@@ -33,10 +32,10 @@ docker run --restart=always -d \
 --name mssql \
 -p 1433:1433 \
 -v /etc/localtime:/etc/localtime \
--m 512m \
+-m 5120m \
 -e 'ACCEPT_EULA=Y' \
 -e 'SA_PASSWORD=LongLongPassword1!' \
-microsoft/mssql-server-linux:2017-latest
+mcr.microsoft.com/mssql/server:2017-latest
 
 # 192.168.56.213,1433
 # sa/LongLongPassword1!
@@ -46,16 +45,20 @@ microsoft/mssql-server-linux:2017-latest
 ``` bash
  
 # 部署mssql 2019
+mkdir -p /root/docker/mssql/data
+chmod 777 -R /root/docker/mssql/data
+cd /root/docker/mssql
 docker run --restart=always -d \
 --name mssql2019 \
 -p 1434:1433 \
+-v $PWD/data:/data \
 -v /etc/localtime:/etc/localtime \
--m 512m \
+-m 5120m \
 -e 'ACCEPT_EULA=Y' \
 -e 'SA_PASSWORD=LongLongPassword1!' \
-microsoft/mssql-server-linux:2019-latest
+mcr.microsoft.com/mssql/server:2019-latest
 
-# 192.168.56.213,1434
+# 192.168.3.221,1434
 # sa/LongLongPassword1!
 
 ```
@@ -68,32 +71,36 @@ microsoft/mssql-server-linux:2019-latest
 #常用命令
 
 #查看容器logs
-docker logs mssql
+docker logs mssql2019
 
 #停止容器
-docker stop mssql
+docker stop mssql2019
 
 #打开容器
-docker start mssql
+docker start mssql2019
 
 #重启容器
-docker restart mssql
+docker restart mssql2019
 
 #删除容器
-docker rm mssql -f
+docker rm mssql2019 -f
 
 
 #进入容器执行命令
-docker  exec -it mssql bash
+docker exec -it mssql2019 bash
 
 /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'LongLongPassword1!'
 
 
 #创建数据库
 CREATE DATABASE testDB
-go
+GO
 
-
+#创建数据库(指定文件路径)
+CREATE DATABASE test2 
+ON PRIMARY (NAME = N'test2_Data',FILENAME = N'/data/test2_Data.MDF' ,FILEGROWTH = 10%) 
+LOG ON ( NAME =N'test2_Log',FILENAME = N'/data/test2_Log.LDF' ,FILEGROWTH = 10%)
+GO
 
 
   
