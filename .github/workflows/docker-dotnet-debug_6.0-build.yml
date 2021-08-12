@@ -39,12 +39,12 @@ jobs:
            echo "(x.2)get version"
            version=`docker run -i --rm mcr.microsoft.com/dotnet/sdk:6.0 dotnet --info | grep Version | head -n 1`
            version=`echo ${version#*:} | sed 's/ //g'`
-           echo $version          
+           echo $version
            
 
-           echo "(x.3)构建镜像"          
+           echo "(x.3)构建镜像"
            cd dotnet-debug_6.0
-           docker build -t serset/dotnet-debug:6.0 -t serset/dotnet-debug:$version  . 
+           docker build -t serset/dotnet-debug:6.0 -t serset/dotnet-debug:$version . 
            cd ..
            
            echo "(x.4)推送到镜像仓库" 
