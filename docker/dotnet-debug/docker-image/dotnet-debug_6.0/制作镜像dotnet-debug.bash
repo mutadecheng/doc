@@ -8,7 +8,7 @@
 # docker login -u serset -p xxxxxxx
 
 #get version
-version=`docker run -i --rm mcr.microsoft.com/dotnet/sdk:6.0 dotnet --info | grep Version`
+version=`docker run -i --rm mcr.microsoft.com/dotnet/sdk:6.0 dotnet --info | grep Version | head -n 1`
 version=`echo ${version#*:} | sed 's/ //g'`
 echo $version
 

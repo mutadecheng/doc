@@ -41,7 +41,7 @@ docker buildx ls
 
 
 #get version
-version=`docker run -i --rm mcr.microsoft.com/dotnet/runtime:3.1 dotnet --info | grep Version`
+version=`docker run -i --rm mcr.microsoft.com/dotnet/runtime:3.1 dotnet --info | grep Version | head -n 1`
 version=`echo ${version#*:} | sed 's/ //g'`
 echo $version
 
