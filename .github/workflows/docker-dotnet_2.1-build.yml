@@ -32,26 +32,26 @@ jobs:
            cd ./docker/dotnet/docker-image
            
 
-           echo "(x.1)³õÊ¼»¯¹¹½¨Æ÷"
-           #ÆôÓÃ buildx ²å¼ş
+           echo "(x.1)åˆå§‹åŒ–æ„å»ºå™¨"
+           #å¯ç”¨ buildx æ’ä»¶
            export DOCKER_CLI_EXPERIMENTAL=enabled
-           #ÆôÓÃ binfmt_misc
+           #å¯ç”¨ binfmt_misc
            docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
-           #ÑéÖ¤ÊÇ binfmt_misc ·ñ¿ªÆô
+           #éªŒè¯æ˜¯ binfmt_misc å¦å¼€å¯
            ls -al /proc/sys/fs/binfmt_misc/
-           #´´½¨Ò»¸öĞÂµÄ¹¹½¨Æ÷
+           #åˆ›å»ºä¸€ä¸ªæ–°çš„æ„å»ºå™¨
            docker buildx create --use --name mybuilder
-           #Æô¶¯¹¹½¨Æ÷
+           #å¯åŠ¨æ„å»ºå™¨
            docker buildx inspect mybuilder --bootstrap
            
            
-           echo "(x.2)µÇÂ¼"
+           echo "(x.2)ç™»å½•"
            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
            
                       
                       
            
-           echo "(x.3)¹¹½¨¶à¼Ü¹¹¾µÏñ-aspnet"
+           echo "(x.3)æ„å»ºå¤šæ¶æ„é•œåƒ-aspnet"
            
            cd dotnet_aspnet-2.1-amd64
            docker buildx build -t serset/dotnet:aspnet-2.1-amd64 --platform=linux/amd64 -o type=docker .
@@ -75,7 +75,7 @@ jobs:
            
            
            
-           echo "(x.4)¹¹½¨¶à¼Ü¹¹¾µÏñ-runtime"
+           echo "(x.4)æ„å»ºå¤šæ¶æ„é•œåƒ-runtime"
            
            cd dotnet_runtime-2.1-amd64
            docker buildx build -t serset/dotnet:runtime-2.1-amd64 --platform=linux/amd64 -o type=docker .
@@ -100,7 +100,7 @@ jobs:
            
            
            
-           echo "(x.5)¹¹½¨¶à¼Ü¹¹¾µÏñ-sdk"
+           echo "(x.5)æ„å»ºå¤šæ¶æ„é•œåƒ-sdk"
            
            cd dotnet_sdk-2.1-amd64
            docker buildx build -t serset/dotnet:sdk-2.1-amd64 --platform=linux/amd64 -o type=docker .
@@ -124,7 +124,7 @@ jobs:
            
            
            
-           echo "(x.6)¹¹½¨Ä¬ÈÏ¾µÏñ"
+           echo "(x.6)æ„å»ºé»˜è®¤é•œåƒ"
            docker manifest create serset/dotnet:2.1 serset/dotnet:aspnet-2.1-amd64 serset/dotnet:aspnet-2.1-arm64 serset/dotnet:aspnet-2.1-arm
            docker manifest annotate serset/dotnet:2.1 serset/dotnet:aspnet-2.1-amd64 --os linux --arch amd64
            docker manifest annotate serset/dotnet:2.1 serset/dotnet:aspnet-2.1-arm64 --os linux --arch arm64

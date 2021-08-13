@@ -76,11 +76,29 @@ docker run --restart=always -d \
 --name=app1 \
 -v /etc/localtime:/etc/localtime \
 -v $PWD:/root/app \
-serset/dotnet:2.1
+serset/dotnet:aspnet-2.1
 
 ```
 
-## (x.x.3)容器常用命令
+## (x.x.3)发布项目
+
+``` bash
+cd /root/docker/app1
+docker run -it --rm \
+-v /etc/localtime:/etc/localtime \
+-v $PWD:/root/app \
+-v $PWD/nuget/packages:/root/.nuget/packages \
+serset/dotnet:sdk-6.0 \
+bash -c "
+set -e
+cd /root/app
+dotnet build --configuration Release
+dotnet publish --configuration Release --output /root/app/publish
+"
+
+```
+
+## (x.x.4)容器常用命令
 
 ``` bash
 #查看容器logs

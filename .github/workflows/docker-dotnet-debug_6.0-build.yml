@@ -32,7 +32,7 @@ jobs:
            cd ./docker/dotnet-debug/docker-image
            
            
-           echo "(x.1)µÇÂ¼"
+           echo "(x.1)ç™»å½•"
            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
            
                       
@@ -42,12 +42,12 @@ jobs:
            echo $version
            
 
-           echo "(x.3)¹¹½¨¾µÏñ"
+           echo "(x.3)æ„å»ºé•œåƒ"
            cd dotnet-debug_6.0
            docker build -t serset/dotnet-debug:6.0 -t serset/dotnet-debug:$version . 
            cd ..
            
-           echo "(x.4)ÍÆËÍµ½¾µÏñ²Ö¿â" 
+           echo "(x.4)æ¨é€åˆ°é•œåƒä»“åº“" 
            docker push serset/dotnet-debug:6.0
            docker push serset/dotnet-debug:$version
             
