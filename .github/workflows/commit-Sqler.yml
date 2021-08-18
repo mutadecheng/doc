@@ -43,7 +43,7 @@ jobs:
            docker run -i --rm -v $codePath/svn:/root/svn serset/svn-client svn checkout "$SVN_URL" /root/svn --username "$SVN_USER" --password "$SVN_PASSWORD" --no-auth-cache
            
            #(x.4)get version
-           version=`grep '<Version>' $(grep '<pack/>\|<publish>' ${codePath} -r --include *.csproj -l | head -n 1) | grep -oP '>(.*)<' | tr -d '<>'`
+           version=`grep '<Version>' $(grep '<pack>\|<publish>' ${codePath} -r --include *.csproj -l | head -n 1) | grep -oP '>(.*)<' | tr -d '<>'`
            echo version: $version
            
            #----------------------------------------------
