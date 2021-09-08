@@ -14,13 +14,16 @@ echo $version
 
 #构建镜像
 cd dotnet-debug_6.0
-docker build -t serset/dotnet-debug:6.0 -t serset/dotnet-debug:$version . 
+docker build -t serset/dotnet-debug:6.0 -t serset/dotnet-debug:$version -t serset/dotnet:debug-6.0 -t serset/dotnet:debug-$version . 
 cd ..
 
 #推送到镜像仓库
 docker push serset/dotnet-debug:6.0
 docker push serset/dotnet-debug:$version
- 
+docker push serset/dotnet:debug-6.0
+docker push serset/dotnet:debug-$version
+
+
 
 
 

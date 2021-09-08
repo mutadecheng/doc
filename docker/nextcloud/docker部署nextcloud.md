@@ -197,3 +197,40 @@ php occ files:scan lith
 
 #扫描用户lith的Photos文件夹
 php occ files:scan --path="/lith/files"
+
+
+#--------------------------------------------------------------------
+#安装FFmpeg
+
+docker exec -it nextcloud bash
+
+#安装
+apt-get install ffmpeg
+
+#查看版本 
+ffmpeg -version
+
+
+#--------------------------------------------------------------------
+#支持avi文件在线播放
+# https://www.cnblogs.com/puxi/p/10319599.html
+
+docker exec -it nextcloud bash
+
+# 1修改文件
+apps/files_videoplayer/js/main.js
+
+# 2搜索mimeType
+# 添加两行代码，加入对avi文件的支持。如下：
+mimeTypes : ['video/x-msvideo']
+mimeTypeAliasses: {'video/x-matroska': 'video/webm' ,'video/x-msvideo': 'video/mp4','video/quicktime': 'video/mp4' }
+
+# 3保存,刷新浏览器缓存即可。
+
+
+
+
+
+
+
+

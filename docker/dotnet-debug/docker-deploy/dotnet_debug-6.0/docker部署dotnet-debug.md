@@ -32,13 +32,13 @@ sh /root/app/dotnet-debug.sh > /root/app/dotnet-debug.log 2>&1
 
 ``` bash
 cd /root/docker
-cd dotnet-debug_6.0
+cd dotnet_debug-6.0
 
 #精简
 docker run --name=dotnet-debug --restart=always -d \
 -p 10022:10022 \
 -v /etc/localtime:/etc/localtime \
-serset/dotnet-debug:6.0
+serset/dotnet:debug-6.0
 
 
 #完整映射
@@ -48,7 +48,7 @@ docker run --name=dotnet-debug --restart=always -d \
 -v $PWD/sshd_config:/etc/ssh/sshd_config \
 -v $PWD/startup.sh:/root/app/startup.sh \
 -v $PWD:/root/app \
-serset/dotnet-debug:6.0
+serset/dotnet:debug-6.0
 
 ```
 

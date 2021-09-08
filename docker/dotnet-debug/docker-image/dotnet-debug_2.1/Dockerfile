@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:2.1
+FROM mcr.microsoft.com/dotnet/sdk:2.1
 
 #(x.1)install ssh
 RUN apt-get update && apt-get -y install openssh-server unzip
@@ -13,8 +13,9 @@ COPY sshd_config /etc/ssh/sshd_config
 
 
 #(x.2)install vs-debugger
-# vs2019 vs2017u5  vs2017u1
-RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l /root/.vs-debugger/vs2019
+# latest Ö§³Ö vs2022 vs2019 vsfm-8 vs2017u5
+# vs2017u1
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /root/.vs-debugger/latest
 RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2017u5 -l /root/.vs-debugger/vs2017u5
 RUN chmod +x  /root/.vs-debugger
 
