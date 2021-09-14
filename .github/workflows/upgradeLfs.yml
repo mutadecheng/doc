@@ -43,7 +43,7 @@ jobs:
            git config --global user.email 'serset@yeah.com'
            git config --global user.name 'lith'
            mkdir -p /root/code
-           git clone git@github.com:serset/release2.git /root/code
+           git clone git@github.com:serset/release.git /root/code
            
            cd /root/code
            git lfs migrate import --include-ref=master --include='*.zip' -y
