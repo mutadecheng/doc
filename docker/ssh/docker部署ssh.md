@@ -61,7 +61,7 @@ docker rm ssh -f
 
 
 #进入容器执行命令
-docker  exec -it ssh bash
+docker exec -it ssh bash
 
 
 #创建临时容器

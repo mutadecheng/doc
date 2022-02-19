@@ -1,0 +1,41 @@
+-----------------------------------------------------
+https://www.cnblogs.com/top5/archive/2012/01/19/2326234.html
+
+::前台启动虚拟机（关闭控制台亦会关闭虚拟机）
+"C:\Program Files\Oracle\VirtualBox\VBoxHeadless" --startvm "c8Mini" 
+
+ 
+cd /d "C:\Program Files\Oracle\VirtualBox\"
+VBoxHeadless --startvm "c8Mini"
+:: VBoxManage startvm "XP" --type headless
+
+------------------------------------------------------
+http://www.pgygho.com/help/fwq/21916.html
+
+::后台启动虚拟机（关闭控制台不会关闭虚拟机）
+cd /d "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage startvm c8Mini -type headless
+
+
+"C:\Program Files\Oracle\VirtualBox\VBoxManage" startvm c8Mini -type headless
+
+
+::关闭虚拟机
+VBoxManage controlvm c8Mini acpipowerbutton
+
+::强制关闭虚拟机
+VBoxManage controlvm c8Mini poweroff
+
+
+::查看有哪些虚拟机
+VBoxManage list vms
+
+::查看虚拟的详细信息
+VBoxManage list vms --long
+
+::查看运行着的虚拟机
+VBoxManage list runningvms
+
+
+
+

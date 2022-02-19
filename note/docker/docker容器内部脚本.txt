@@ -1,0 +1,27 @@
+
+
+----------------------------------------
+镜像没有ps命令解决方法
+https://blog.csdn.net/weixin_37878255/article/details/83347130
+容器内使用如下命令安装
+apt-get update && apt-get install procps
+---------------------------------
+https://blog.csdn.net/Dongguabai/article/details/84143093
+
+查看所有进程
+ps -ef
+
+获取指定进程号 
+pgrep -f 'dotnet  aa.dll'
+
+
+Linux下强制杀死进程的方法
+https://www.cnblogs.com/liaojie970/p/7131043.html
+
+启动dotnet进程
+dotnet App.Gover.Gateway.dll
+
+杀死 dotnet进程
+kill -s 9 `pgrep -f 'dotnet App.Gover.Gateway.dll'`
+
+---------------------------------

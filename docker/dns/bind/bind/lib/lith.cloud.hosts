@@ -1,0 +1,26 @@
+$ttl 38400
+lith.cloud.	IN	SOA	47.116.132.117. serset.yeah.net. (
+			1632317479
+			10800
+			3600
+			604800
+			38400 )
+lith.cloud.	IN	NS	47.116.132.117.
+dns1.lith.cloud.	IN	A	47.116.132.117
+dns2.lith.cloud.	IN	A	47.116.132.117
+
+lith.cloud.	IN	A	47.116.132.117
+ali.lith.cloud.	IN	A	47.116.132.117
+
+svn.lith.cloud.	3600	IN	CNAME	ali.lith.cloud.
+mc.lith.cloud.	3600	IN	CNAME	ali.lith.cloud.
+minecraft.lith.cloud.	3600	IN	CNAME	ali.lith.cloud.
+nextcloud.lith.cloud.	3600	IN	CNAME	ali.lith.cloud.
+pan.lith.cloud.	3600	IN	CNAME	ali.lith.cloud.
+
+
+
+pan.home.lith.cloud.	IN	A	112.64.2.49
+pan4.home.lith.cloud.	IN	A	112.64.2.49
+
+be.lith.cloud.	3600	IN	CNAME	be.sers.cloud.

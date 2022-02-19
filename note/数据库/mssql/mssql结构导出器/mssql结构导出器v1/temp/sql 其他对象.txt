@@ -1,0 +1,50 @@
+
+
+declare @IDStart int;
+declare @IDNext int;
+ --定义text 指针   
+ DECLARE @ptrval BINARY(16)
+declare @sqlNext varchar(8000)
+
+
+SELECT  Identity(int,1,1) [ID],
+    o.xtype,
+(CASE o.xtype WHEN 'X' THEN '扩展存储过程' WHEN 'TR' THEN '触发器' WHEN 'PK' THEN '主键' WHEN 'F' THEN '外键' WHEN 'C' THEN '约束' WHEN 'V' THEN '视图' WHEN 'FN' THEN '函数-标量' WHEN 'IF' THEN '函数-内嵌' WHEN 'TF' THEN '函数-表值' ELSE '存储过程' END)
+ AS [类型]
+, o.name AS [对象名]
+, o.crdate AS [创建时间]
+, o.refdate AS [更改时间],
+convert(text,c.[text]) AS [声明语句]
+into #tb
+FROM dbo.sysobjects o LEFT OUTER JOIN
+dbo.syscomments c ON o.id = c.id
+WHERE (o.xtype IN ('X', 'TR', 'C', 'V', 'F', 'IF', 'TF', 'FN', 'P', 'PK')) AND
+(OBJECTPROPERTY(o.id, N'IsMSShipped') = 0)
+order BY  o.xtype
+
+
+ 
+while(1=1)
+begin
+set @IDStart=null;
+ 	select top 1 @IDStart=start.[ID], @IDNext=nex.[ID], @ptrval=TEXTPTR(start.[声明语句]),@sqlNext=convert(varchar(8000),nex.[声明语句])        
+	from #tb start,#tb nex where start.[ID]<nex.[ID] and  start.[xtype]=nex.[xtype] and  start.[对象名]=nex.[对象名]
+
+
+ 	if( @IDStart is null) break;
+
+
+	UPDATETEXT #tb.[声明语句] @ptrval NULL 0 @sqlNext;
+	delete #tb where [id]=@IDNext;
+
+end
+
+select * from #tb  
+--WHERE (xtype IN ( 'TR', 'P' , 'TF', 'FN','V'     )) --  ,  'X', 'C',  'F', 'IF', 'PK'
+order BY  [类型]   
+
+
+
+  
+
+drop table #tb

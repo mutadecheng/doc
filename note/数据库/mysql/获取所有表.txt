@@ -1,0 +1,38 @@
+
+-- https://dev.mysql.com/doc/refman/8.0/en/show-create-view.html
+-- https://www.cnblogs.com/saneri/p/6963583.html
+
+
+SHOW CREATE DATABASE test;
+
+show tables;
+
+SHOW CREATE table t1;
+
+
+
+
+
+
+
+
+--最大连接数
+show variables like '%max_connections%'; 
+
+--当前连接数
+show full processlist;
+
+
+
+------------------------------------------------------------------------------------------------
+show tables;
+
+
+SELECT 
+TABLE_SCHEMA,TABLE_NAME as table_name,
+COLUMN_NAME as column_name,DATA_TYPE as column_type,
+COLUMN_COMMENT as column_comment,
+if(COLUMN_KEY='PRI',1,0) as primary_key,
+if(EXTRA='auto_increment',1,0) as autoincrement   
+ FROM information_schema.COLUMNS
+WHERE TABLE_NAME IN ('table1','table2')

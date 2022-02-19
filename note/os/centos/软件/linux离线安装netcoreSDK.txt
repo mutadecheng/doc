@@ -1,0 +1,51 @@
+
+--------------------------
+linux离线安装net core SDK
+
+//https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-2.1.502-linux-x64-binaries
+
+(1)下载文件dotnet-sdk-2.1.502-linux-x64.tar.gz，复制到文件夹 /root/netapp (手动创建)
+
+(2) 执行命令
+
+cd /root/netapp
+mkdir -p /usr/share/dotnet && tar zxf dotnet-sdk-2.1.502-linux-x64.tar.gz -C /usr/share/dotnet
+ 
+#创建软链接
+ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet 
+
+#查看是否配置成功
+dotnet
+
+ 
+
+
+
+
+
+------------------------
+手动安装netcore sdk
+
+https://www.jb51.net/article/99589.htm
+
+mkdir /usr/share/dotnet && cd $_
+然后下载并解压.NET Core SDK Binary安装包：
+
+curl -sSl https://download.visualstudio.microsoft.com/download/pr/e5eef3df-d2e3-429b-8204-f58372eb6263/20c825ddcc6062e93ff0c60e8354d3af/dotnet-sdk-2.1.500-linux-x64.tar.gz | tar zxfv -
+最后创建一个软链接就可以了：
+
+ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet 
+
+----------------------------
+文件权限不够解决办法
+  找到出错文件的路径，然后输入sudo chmod -R 777 文件路径，
+eg:sudo chmod -R 777 /sys/class/gpio 
+
+
+
+
+
+
+
+
+

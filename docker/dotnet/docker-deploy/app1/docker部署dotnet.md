@@ -118,6 +118,6 @@ docker rm app1 -f
 
 
 #进入容器执行命令
-docker  exec -it app1 bash
+docker exec -it app1 bash
 
 ```

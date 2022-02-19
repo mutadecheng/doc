@@ -1,0 +1,40 @@
+﻿https://blog.csdn.net/weixin_42363997/article/details/83578995
+
+一条命令安装docker
+apt install docker.io
+
+
+
+//设置开机启动
+sudo systemctl enable docker.service
+ 
+
+
+-----------------------------------------------------------------------
+
+如果你过去安装过 docker，先删掉:
+sudo apt-get remove docker docker-engine docker.io
+
+首先安装依赖:
+sudo apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common
+
+信任 Docker 的 GPG 公钥:
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+//对于 amd64 架构的计算机，添加软件仓库:
+//sudo add-apt-repository \    "deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu \    $(lsb_release -cs) \    stable"
+ 
+最后安装：
+sudo apt-get update
+sudo apt-get install docker-ce
+
+
+-----------------------------------------
+镜像加速
+新版的 Docker 使用 /etc/docker/daemon.json（Linux）
+在该配置文件中加入（没有该文件的话，请先建一个）：
+{
+  "registry-mirrors": ["http://hub-mirror.c.163.com"]
+}
+
+ 

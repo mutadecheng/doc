@@ -72,7 +72,7 @@ docker rm dotnet-debug -f
 
 
 #进入容器执行命令
-docker  exec -it dotnet-debug bash
+docker exec -it dotnet-debug bash
 
 ```
 

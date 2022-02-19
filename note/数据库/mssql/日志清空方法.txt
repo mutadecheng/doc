@@ -1,0 +1,20 @@
+SQL   Server日志清空方法   
+
+
+在查询分析器中顺序执行以下三步，其中   databasename   为你的数据库文件名
+
+
+1.清空日志：DUMP   TRANSACTION   databasename   WITH   NO_LOG   
+
+2.截断事务日志：BACKUP   LOG   databasename   WITH   NO_LOG   
+
+3.收缩数据库：DBCC   SHRINKDATABASE(databasename)  
+
+
+
+
+数据不写入日志：
+
+         选中数据库->属性->选项->恢复模式改为简单
+
+ 

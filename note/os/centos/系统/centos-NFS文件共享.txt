@@ -1,0 +1,50 @@
+https://www.jb51.net/article/151011.htm
+
+-------------------------------------------
+#NFS服务器配置
+#1.安装NFS服务
+yum -y install rpcbind nfs-utils nfs
+
+#2.创建共享目录 
+mkdir /k8sData/
+chmod 755 -R /k8sData/
+
+#3.指定可访问的客户端ip（可为* 或不指定），后面括号里的内容是权限参数。在配置文件（/etc/exports）中加入：
+/k8sData/ 192.168.56.102(rw,no_root_squash,no_all_squash,sync)
+/k8sData/ 192.168.56.103(rw,no_root_squash,no_all_squash,sync)
+
+#配置立即生效
+exportfs -r
+
+
+#4.启动服务
+systemctl start rpcbind
+systemctl start nfs-server
+
+#5.加入开机启动：
+systemctl enable rpcbind 
+systemctl enable nfs-server
+
+----------------------------------------------
+#客户端配置
+#1.安装rpcbind服务
+yum -y install rpcbind showmount 
+
+#2.查看服务端已共享的目录:
+showmount -e 192.168.56.101
+
+#3.建立挂载目录，执行挂载
+#如果不加 -o nolock,nfsvers=3 则在挂载目录下的文件属主和组都是nobody，如果指定nfsvers=3则显示root。
+mkdir -p /k8sData
+mount -t nfs 192.168.56.101:/k8sData /k8sData/ -o nolock,nfsvers=3,vers=3
+
+#4.开机自动挂载
+#在文件 /etc/rc.d/rc.local最后添加一行：
+echo "mount -t nfs 192.168.56.101:/k8sData /k8sData/ -o nolock,nfsvers=3,vers=3" >>/etc/rc.d/rc.local
+
+#查看挂载结果
+df -h
+
+#解除挂载
+umount /k8sData
+

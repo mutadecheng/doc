@@ -30,6 +30,15 @@ nginx:1.17.5
 # 3.容器常用命令
 
 ``` bash
+
+
+#重新加载配置  
+docker exec -it nginx nginx -s reload
+
+
+
+
+
 #查看容器logs
 docker logs nginx
 
@@ -47,15 +56,15 @@ docker rm nginx -f
 
 
 #进入容器执行命令
-docker  exec -it nginx bash
+docker exec -it nginx bash
 
 #测试配置是否有语法错误
 nginx -t
-docker  exec -it nginx nginx -t
+docker exec -it nginx nginx -t
 
 #重新加载配置  
 nginx -s reload
-docker  exec -it nginx nginx -s reload
+docker exec -it nginx nginx -s reload
 
 #重新加载配置|重启|停止|退出
 nginx -s reload|reopen|stop|quit  
@@ -68,3 +77,55 @@ docker cp  nginx:/usr/share/nginx/html/ /root/nginx/html/
 
 ```
  
+#------------------------------------------------------
+# (x.1).resolver
+> https://blog.csdn.net/Leopard_89/article/details/113619558
+> https://www.rootop.org/pages/4307.html nginx中resolver参数配置解释
+只有设置了变量,而且proxy_pass值是域名，resolver才生效。
+
+set $domain_name "i.nextcloud.sers.cloud:6190";
+resolver 140.205.81.17 valid=5s ipv6=off;
+location / { 
+	proxy_pass http://$domain_name;
+}
+
+#------------------------------------------------------
+# (x.2)解决重定向后https变成了http的问题
+location / { 
+
+	#传递客户端ip	 
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Real-Port $remote_port;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header Host $host:$server_port;
+
+	#解决重定向后https变成了http的问题
+	proxy_redirect http:// https://;
+
+	proxy_pass http://localhost:2003;
+
+
+	client_max_body_size 50000m;
+	client_body_buffer_size 1024k;
+}
+
+
+#------------------------------------------------------
+# (x.3)允许跨域
+
+server {
+	listen 8;    
+	server_name ms.clean.lith.cloud;
+
+	location / {
+
+		proxy_pass http://localhost:2100;
+
+		# configuration with allow cross domain
+		add_header 'Access-Control-Allow-Origin' '*';
+		add_header 'Access-Control-Allow-Credentials' 'true';
+	}
+ 
+}
+
+

@@ -56,7 +56,7 @@ docker restart rabbitmq
 docker rm rabbitmq -f
 
 #进入容器执行命令
-docker  exec -it rabbitmq bash
+docker exec -it rabbitmq bash
 
 ```
  

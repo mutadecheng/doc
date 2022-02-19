@@ -10,22 +10,27 @@ RUN echo "root:123456" | chpasswd
 COPY sshd_config /etc/ssh/sshd_config
 
 
+#(x.2)install curl
+RUN apt-get install curl -y
 
 
- #(x.2)install git
-RUN apt-get install -y git
-RUN mkdir /root/git
+#(x.3)install git
+RUN apt-get install git -y
 
 
-# set git clone default dir
+#(x.4)install git-lfs
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+RUN apt-get install git-lfs
+
+
+#(x.5)set default dir
+RUN mkdir -p /root/git
 WORKDIR /root/git
 VOLUME ["/root/git"]
 
 
 
-
-
-#(x.3)RUN service ssh start
+#(x.6)RUN service ssh start
 #startup.sh
 COPY startup.sh /root/startup.sh
 CMD ["sh","/root/startup.sh"]

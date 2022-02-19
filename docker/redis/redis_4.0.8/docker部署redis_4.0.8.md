@@ -47,5 +47,5 @@ docker restart redis
 docker rm redis -f
 
 #进入容器执行命令
-docker  exec -it redis bash
+docker exec -it redis bash
 ``` 

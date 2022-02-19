@@ -1,0 +1,38 @@
+/opt/eclipse/eclipse
+
+-----------------
+
+https://www.cnblogs.com/amanlikethis/p/3401370.html
+
+
+------------
+
+
+（1）安装JDK
+apt-get install openjdk-6-jre-headless
+
+
+（2）下载Eclipse IDE for C/C++ Developers
+     http://www.eclipse.org/downloads/?osType=linux&release=undefined 
+     https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2019-03/R/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
+
+     文件eclipse-cpp-kepler-SR1-linux-gtk.tar.gz
+
+
+（3）解压安装
+tar xzvf eclipse-cpp-kepler-SR1-linux-gtk.tar.gz -C /opt
+
+
+
+---------------------------------------
+C++ 
+
+(1) install cmake
+
+cmake --version  
+
+apt-get install cmake  
+
+(2) install g++
+sudo apt-get install build-essential
+apt-get install g++

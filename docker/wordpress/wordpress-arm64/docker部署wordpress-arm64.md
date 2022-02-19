@@ -31,7 +31,7 @@ docker rm wordpress -f
 docker rm wordpress_mysql -f
 
 #进入容器执行命令
-docker  exec -it wordpress bash
+docker exec -it wordpress bash
 
 
 #docker备份文件
@@ -61,7 +61,7 @@ mysql/mysql-server:8.0
 
 
 # (x.x.1)进入容器执行命令
-docker  exec -it wordpress-mysql bash
+docker exec -it wordpress-mysql bash
 mysql -u root -p123456
 
 # (x.x.2)启用远程连接
@@ -102,7 +102,7 @@ dotnet Sqler.dll MySql.Restore \
 
 ### (x.3)修改域名
 # (x.x.1)进入容器执行命令
-docker  exec -it wordpress-mysql bash
+docker exec -it wordpress-mysql bash
 mysql -u root -p123456
 # (x.x.2)修改域名
 use wordpress;

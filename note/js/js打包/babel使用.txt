@@ -1,0 +1,26 @@
+https://blog.csdn.net/weixin_43423864/article/details/109702826
+
+
+#初始化项目
+npm init -y
+
+#安装转码器
+npm install babel-preset-es2015 --save-dev
+
+npm install babel-runtime --save
+npm install babel-plugin-transform-runtime --save-dev
+npm install --save babel-preset-stage-2
+
+#创建 .babelrc
+
+#转换单个文件：
+babel B4C_es6_1.0/B4C.js -o B4C_es5_1.0/B4C.js
+
+
+转换整个文件夹：
+babel B4C_es6_1.0 -d B4C_es5_1.0
+
+
+
+---------------------------------
+https://blog.csdn.net/weixin_33753845/article/details/91414204

@@ -26,7 +26,7 @@ docker run --restart=always -d \
 -v /etc/localtime:/etc/localtime \
 -v $PWD/data:/var/lib/mysql \
 -e MYSQL_ROOT_PASSWORD=123456 \
-mysql/mysql-server:8.0
+mysql/mysql-server:8.0.26-aarch64
 
 
 
@@ -55,7 +55,7 @@ docker rm mysql80 -f
 
 
 #进入容器执行命令
-docker  exec -it mysql80 bash
+docker exec -it mysql80 bash
 
 mysql -u root -p
 123456
@@ -92,47 +92,7 @@ show variables like 'slow_query_log_file';
 
 
 
-
  
-#4.限制内存
-
-##[法1]在docker创建命令后指定参数
-
-``` bash
-cd /root/docker/mysql_8.0
-#chmod 644 -R conf.d
-
-docker run --restart=always -d \
---name mysql80 \
--p 3306:3306 \
--v /etc/localtime:/etc/localtime \
--v $PWD/conf.d:/etc/mysql/conf.d \
--v $PWD/data:/var/lib/mysql \
--e MYSQL_ROOT_PASSWORD=123456 \
-mysql:8.0 \
---performance_schema_max_table_instances=100 \
---table_definition_cache=64 \
---table_open_cache=32 \
---performance_schema=off
-
-
-#查看支持的参数
-docker run -it --rm mysql:8.0 --verbose --help
- 
-```
-
-
-
-##[法2]修改文件 conf.d/docker.cnf,加入如下配置（按需修改大小）（已失效）
-``` bash
-
-#默认未设置，预置 10000 
-performance_schema_max_table_instances = 100
-#默认1400
-table_definition_cache = 64
-#默认2000
-table_open_cache = 32
-#performance_schema = off
 
  
 ```

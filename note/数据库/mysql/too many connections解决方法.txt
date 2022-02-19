@@ -1,0 +1,21 @@
+too many connections 之解决方法
+
+
+https://www.cnblogs.com/2881064178dinfeng/p/6938112.html
+https://blog.csdn.net/cailongbiaoyuli/article/details/83542663
+
+
+show variables like '%max_connections%';
+
+show processlist;
+
+
+-- set GLOBAL max_connections=1024;
+
+
+
+
+# /bin/my.ini（根据数据库安装路径情况而定）
+
+[mysqld]
+max_connections=10000

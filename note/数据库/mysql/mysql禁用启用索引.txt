@@ -1,0 +1,12 @@
+https://blog.csdn.net/liyazhen2011/article/details/90237380
+
+
+在大批量导入时先禁用索引, 在完全导入后, 再开启索引, 一次性完成重建索引的效率会相对高很多, 经过反复几次测试
+
+ALTER TABLE tbl2 DISABLE KEYS;
+ 
+ 
+ ALTER TABLE tbl2 ENABLE KEYS;
+ 
+
+

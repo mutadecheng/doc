@@ -1,0 +1,26 @@
+https://gofinall.com/81.html
+
+
+服务管理主要有启动、停止和重启，其命令如下：
+
+启动服务：nssm start <servicename>
+停止服务： nssm stop <servicename>
+重启服务: nssm restart <servicename>
+ 
+服务删除
+nssm remove <servicename>
+nssm remove <servicename> confirm
+
+
+
+如下是一个官方安装Jenkins服务的示例：
+
+nssm install Jenkins %PROGRAMFILES%\Java\jre7\bin\java.exe
+nssm set Jenkins AppParameters -jar slave.jar -jnlpUrl https://jenkins/computer/%COMPUTERNAME%/slave-agent.jnlp -secret redacted
+nssm set Jenkins AppDirectory C:\Jenkins
+nssm set Jenkins AppStdout C:\Jenkins\jenkins.log
+nssm set Jenkins AppStderr C:\Jenkins\jenkins.log
+nssm set Jenkins AppStopMethodSkip 6
+nssm set Jenkins AppStopMethodConsole 1000
+nssm set Jenkins AppThrottle 5000
+nssm start Jenkins

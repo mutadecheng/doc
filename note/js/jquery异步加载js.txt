@@ -1,0 +1,30 @@
+    //(x.1)
+    var scripts = document.getElementsByTagName('script')//获所有script标签
+        , script = scripts[scripts.length - 1]//获取当前加载到的script标签
+        //如果是ID，src=document.getElementById('script的Id').src
+        , src = script.src;//获取当前加载到的script标签的src属性
+
+    var contextMenuSrc = src.substring(0, src.lastIndexOf('/')) + '/vit.ContextMenu.js';
+
+
+
+
+//(x.2)加载组件
+ $.ajax({
+                        url: contextMenuSrc,
+                        dataType: "script",
+                        success: function () {
+                            contextMenu = new vit.ContextMenu();
+                        }
+                    });
+
+
+
+
+
+
+
+
+
+
+

@@ -26,7 +26,7 @@ saved/svn
 # 3.svn命令
 ``` bash
 #(x.1)创建资源库(库名为 repo)
-docker  exec -it svn /bin/sh
+docker exec -it svn /bin/sh
 svnadmin create repo
 
 #(x.2)资源库配置
@@ -63,7 +63,7 @@ svn://192.168.56.105:3690/repo
 
  
 #(x.4)备份与还原
-docker  exec -it svn /bin/sh
+docker exec -it svn /bin/sh
 
 #备份
 svnadmin dump /var/opt/svn/repo > /var/opt/svn/repo.svn.bak
@@ -90,7 +90,7 @@ docker restart svn
 docker rm svn -f
 
 #进入容器执行命令
-docker  exec -it svn /bin/sh
+docker exec -it svn /bin/sh
 ```
 
 

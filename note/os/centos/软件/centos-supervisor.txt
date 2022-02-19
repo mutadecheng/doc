@@ -1,0 +1,63 @@
+﻿https://www.baidu.com/link?url=RmGgUSuTFtAxSGLCPPPnoZmoxrNuHpwm0eWYNr02Ygtart3zyUj5tgwnZwhGSdCc4bqqpfxJgl5YqD9HFQ7PQK&wd=&eqid=b6c25ed7000096a5000000055da821f2
+
+
+
+1.安装supervisor
+ yum install Supervisor 
+ 
+2.启动服务
+supervisord -c /etc/supervisord.conf
+
+
+查看版本，检验是否安装成功 
+supervisord -v  
+
+设为开机启动
+systemctl enable supervisord
+ 验证一下是否为开机启动
+systemctl is-enabled supervisord
+
+
+启动、停止 
+systemctl start supervisord
+systemctl stop supervisord
+ 
+查看日志
+systemctl status supervisord.service
+
+ 
+---------------------------------------------------------------------
+解决unix:///tmp/supervisor.sock no such file的问题
+https://blog.csdn.net/qq_28885149/article/details/79364685
+
+
+1打开配置文件
+
+vim /etc/supervisord.conf
+ 把所有的/tmp路径改掉
+/tmp/supervisor.sock 改成 /var/run/supervisor.sock
+/tmp/supervisord.log 改成 /var/log/supervisor.log
+/tmp/supervisord.pid 改成 /var/run/supervisor.pid 
+要不容易被linux自动清掉
+
+
+2、修改权限
+
+
+sudo chmod 777 /run
+
+sudo chmod 777 /var/log
+
+如果没改，启动报错 IOError: [Errno 13] Permission denied: '/var/log/supervisord.log'
+
+
+3、创建supervisor.sock
+
+
+sudo touch /var/run/supervisor.sock
+
+sudo chmod 777 /var/run/supervisor.sock
+
+ 
+---------------------------------------------------------------------
+ 

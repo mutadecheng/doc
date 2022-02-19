@@ -1,0 +1,13 @@
+ SElinux是强制访问控制(MAC)安全系统，是linux历史上最杰出的新安全系统。对于linux安全模块来说，SElinux的功能是最全面的，测试也是最充分的，这是一种基于内核的安全系统。
+
+ 1、SElinux的状态
+
+        命令"getenforce"可以查看SElinux的状态，SElinux的状态分为以下三种：
+
+                                  Enforcing    （1）           强制模式
+
+                                  Permissive   （0）           警告模式
+
+                                  Disabled                     关闭模式
+
+         "setenforce"可以设置SElinux的状态，但是只能设置0和1两种，即警告模式或者强制模式。如果需要关闭，则在配置文件"/etc/sysconfig/selinux"下将"SELINUX=enforcing"改为"SELINUX=disabled"，因为SElinux是基于内核的安全系统，所以在设置完成之后需要重启内核，即需要重启电脑才可以生效。

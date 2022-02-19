@@ -73,7 +73,7 @@ docker rm svn-client -f
 
 
 #进入容器执行命令
-docker  exec -it svn-client bash
+docker exec -it svn-client bash
 
 
 #创建临时容器

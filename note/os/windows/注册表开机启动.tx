@@ -1,0 +1,22 @@
+
+:: 添加注册表登录启动程序
+
+cd /d %~dp0
+cd /d ../Mcc.RemoteControl.NetFx
+set appPath=%cd%
+
+reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v Mcc_RemoteControl /t reg_sz /d "%appPath%\Mcc.RemoteControl.NetFx.exe" /f
+
+pause
+
+:: https://zhidao.baidu.com/question/439025849.html
+
+
+
+
+:: 删除指定注册表
+
+reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v Mcc_RemoteControl /f
+
+
+:: https://www.cnblogs.com/byron0918/p/4832556.html

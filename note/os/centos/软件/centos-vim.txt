@@ -1,0 +1,21 @@
+
+//vim
+vim /data/script/start/wmts.sh
+//查看格式
+:set ff
+
+//设置格式
+:set ff=unix
+
+
+//保存
+:w
+
+//保存退出
+:wq
+
+
+//不保存退出
+:q
+//不保存强制退出
+:q!

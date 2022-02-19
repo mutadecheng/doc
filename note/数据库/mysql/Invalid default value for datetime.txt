@@ -1,0 +1,16 @@
+https://blog.csdn.net/aiyowei1106/article/details/89880920
+
+--查看sql_mode
+show variables like '%sql_mode%';
+
+--修改sql_mode,去掉NO_ZERO_IN_DATE,NO_ZERO_DATE:
+set global sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+
+--show session variables like '%sql_mode%';
+--set sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+
+
+#MySQL sql_mode 说明
+https://www.cnblogs.com/freespider/p/10697485.html

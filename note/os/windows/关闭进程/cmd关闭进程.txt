@@ -1,0 +1,24 @@
+https://jingyan.baidu.com/article/8cdccae9b12690715513cd1f.html
+
+
+taskkill /f /im "dotnet.exe"
+
+tasklist|findstr "dotnet"
+
+
+
+--------------
+http://www.bathome.net/redirect.php?tid=12510&goto=lastpost
+批量关闭进程
+
+@echo off&setlocal enabledelayedexpansion
+set "str=批处理之家　我家脚本　编程技术"
+for /f "delims=" %%a in ('tasklist /v') do (
+     set "a=%%a"&set "flag="
+     for %%a in (%str%) do if "!a:%%a=!" neq "!a!" set "flag=a"
+     if defined flag (
+        for /f "tokens=2" %%a in ("!a!") do taskkill /f /pid %%a>nul 2>nul
+     )
+)
+
+

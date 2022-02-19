@@ -1,0 +1,23 @@
+https://www.cnblogs.com/zhuozhang/articles/7856723.html
+
+
+
+https://blog.csdn.net/hawht/article/details/22684865 
+
+chroot_list_file=/etc/vsftpd.chroot_list
+如果设置为
+chroot_local_user＝YES
+chroot_list_enable=YES(这行可以没有, 也可以有)
+chroot_list_file=/etc/vsftpd.chroot_list
+那么, 凡是加在文件vsftpd.chroot_list中的用户都是不受限止的用户，即, 可以浏览其主目录的上级目录
+如果不希望某用户能够浏览其主目录上级目录中的内容,可以如上设置,然后在文件vsftpd.chroot_list中去掉或不添加该用户即可。
+
+
+
+
+
+useradd -d /home/ftp/ftpuser -g ftp -s /sbin/nologin ftpuser
+passwd ftpuser
+123456
+
+service vsftpd restart

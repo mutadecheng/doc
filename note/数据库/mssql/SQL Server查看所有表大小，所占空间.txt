@@ -1,0 +1,35 @@
+create table #Data(name varchar(100),row varchar(100),reserved varchar(100),data varchar(100),index_size varchar(100),unused varchar(100)) 
+ 
+declare @name varchar(100) 
+declare cur cursor  for 
+    select name from sysobjects where xtype='u' order by name 
+open cur 
+fetch next from cur into @name 
+while @@fetch_status=0 
+begin 
+    insert into #data 
+    exec sp_spaceused   @name 
+    print @name 
+ 
+    fetch next from cur into @name 
+end 
+close cur 
+deallocate cur 
+ 
+ 
+ 
+--µ¥Î» kb
+ 
+select name as tableName
+,convert(int,row) as [rowCount]
+,convert(int,replace(reserved,'KB','')) as reserved_KB
+,convert(int,replace(data,'KB','')) as data_KB 
+,convert(int,replace(index_size,'KB','')) as index_size_KB
+,convert(int,replace(unused,'KB','')) as unused_KB 
+into #dataNew 
+from #data  
+ 
+select * from #dataNew order by data_KB desc  ;  
+
+drop table #Data;
+drop table #dataNew;

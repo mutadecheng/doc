@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <script type="text/javascript">
+
+
+        String.prototype.toJsonStr = function () {
+            /// <summary> 向json键值对数据的字符串型值 转换。 
+            /// <para>例如 转换为javascript 代码  var oJson={"name":"ff"};  中json对象的name属性所对应的值（以双引号包围）。</para> 
+            /// <para>转换   \b \t \n \f \r \" \\ 为 \\b \\t \\n \\f \\r \\" \\\\</para>
+            /// </summary>          
+            /// <returns type="string">转换后的字符串</returns>
+            return this.replace(/\\/g, "\\\\").replace(/\x08/g, "\\b").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\f/g, "\\f").replace(/\r/g, "\\r").replace(/\"/g, "\\\"");
+        };
+
+
+    </script>
+</head>
+<body>
+    <textarea cols="40" rows="20" id="txtJson"></textarea>
+    <input type="button" value="json -> jsonStrValue" onclick="javascript:  txtJsonstr.value = ('' + txtJson.value).toJsonStr() ;" />
+    <input type="button" value="jsonStrValue -> json" onclick='javascript: txtJson.value = eval("\"" + txtJsonstr.value+"\"") ;' />
+    <textarea cols="40" rows="20" id="txtJsonstr"></textarea>
+</body>
+</html>

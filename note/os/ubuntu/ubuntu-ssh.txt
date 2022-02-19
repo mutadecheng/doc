@@ -1,0 +1,27 @@
+ubuntu-ssh
+
+https://www.jianshu.com/p/b9fab528dd6b
+
+
+查看当前的ubuntu是否安装了ssh-server服务。默认只安装ssh-client服务。
+dpkg -l | grep ssh 
+
+
+1、安装openssh-server
+sudo apt-get install openssh-server
+
+2、开机自动启动ssh命令
+sudo systemctl enable ssh
+
+3、关闭ssh开机自动启动命令
+sudo systemctl disable ssh
+
+4、单次开启ssh
+sudo systemctl start ssh
+
+5、单次关闭ssh
+sudo systemctl stop ssh
+
+ 
+7、查看ssh是否启动，看到Active: active (running)即表示成功
+sudo systemctl status ssh

@@ -1,0 +1,46 @@
+﻿
+centos8下启用rc-local服务
+
+http://www.yvsy.com/4069.html
+
+
+ 
+
+#编辑/etc/rc.d/rc.local文件
+
+echo $(date "+%Y-%m-%d %H:%M:%S") call by rc.local >> /home/DataStore/AutoMountNfs.log
+ 
+
+
+
+
+# 加入可执行属性
+chmod +x /etc/rc.d/rc.local
+ll /etc/rc.d/rc.local
+
+# 配置rc.local服务
+vi /usr/lib/systemd/system/rc-local.service
+
+# 内容如下:
+[Unit]
+Description=/etc/rc.d/rc.local Compatibility
+Documentation=man:systemd-rc-local-generator(8)
+ConditionFileIsExecutable=/etc/rc.d/rc.local
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/etc/rc.d/rc.local start
+TimeoutSec=0
+RemainAfterExit=yes
+GuessMainPID=no
+
+[Install]
+WantedBy=multi-user.target
+
+
+#启动
+
+systemctl daemon-reload
+systemctl start rc-local
+systemctl enable rc-local

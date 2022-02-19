@@ -1,0 +1,41 @@
+ https://jingyan.baidu.com/article/73c3ce283ee2c1e50343d9f6.html
+
+
+
+
+
+
+
+开启防火墙
+sudo ufw enable 
+
+查看状态
+sudo ufw status
+
+
+关闭防火墙
+sudo ufw disable
+
+开放端口
+sudo ufw allow 22/tcp
+---------------------------
+ufw disable
+echo y | ufw reset   //重置 ufw
+
+
+
+ufw allow from xxx.xxx.xxx.xxx    //对 此ip开放所有端口
+
+ufw allow from xx.xxx.xx.0/24    // 对某段ip开放全部端口
+ufw allow from 192.168.101.0/24
+ufw allow from xx.xx.xx.xx to any port 161 proto udp  //对某ip开放 161/udp端口
+echo y | ufw enable
+
+# WEB service allow  //对 公网开放 某端口 不加tcp代表 tcp和udp全开
+ufw allow 80/tcp
+
+ufw allow 1:500/tcp     //对公网 批量开放端口 1-500
+
+
+# Default Rules   //默认限制所有
+ufw default deny incoming

@@ -1,0 +1,59 @@
+--------------------------------------------------------
+安装显卡驱动 
+https://blog.csdn.net/u014682691/article/details/80605201
+
+只需要一条命令：
+sudo ubuntu-drivers autoinstall
+
+或者用图形界面的“附加驱动”安装推荐的驱动程序。
+
+--------------------------------------------------------
+启用root用户并允许远程
+https://www.jianshu.com/p/a2097fd1aa29
+
+1.给root用户设置密码：
+sudo passwd root
+第一次输入自己的密码，第二次和第三次就输入root用户密码。
+
+2.修改配置文件：sudo vim /etc/ssh/sshd_config，
+找到PermitRootLogin，将后面的字符串修改为yes
+
+3.重启即可
+reboot
+
+--------------------------------------------------------
+开机自启动脚本
+
+//(x.1)启用/etc/rc.local文件
+https://www.cnblogs.com/dylancao/p/10504684.html
+ 
+//(x.2)在/etc/rc.local文件中添加启动脚本
+https://blog.csdn.net/qq_25241325/article/details/80691271
+
+
+--------------------------------------------------------
+忘记密码解决办法
+https://ywnz.com/linuxjc/2635.html
+
+quiet splash rw init=/bin/bash                   F10
+
+
+https://www.cnblogs.com/klb561/p/9236360.html
+
+// 查看用户登录失败信息
+pam_tally2 -u lith
+
+//如果要在3次失败登录尝试后永久锁定用户，那么需要删除unlock_time字段，除非root用户解锁该账户，否则将永久锁定。
+一旦用户失败登录尝试次数达到3次，该帐户立刻被锁定，除非root用户解锁。
+
+//解锁用户
+pam_tally2 -u lith -r
+
+//添加用户
+useradd be2
+//修改密码
+passwd be2
+
+
+
+

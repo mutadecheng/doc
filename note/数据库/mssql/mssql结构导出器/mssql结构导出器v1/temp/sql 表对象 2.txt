@@ -1,0 +1,40 @@
+
+
+[列名]  [类型] (长度)     IDENTITY(100,2112)   COLLATE Chinese_PRC_CI       NOT NULL  
+ 
+demo:
+[ID] [int]  IDENTITY(100,2112)     NOT NULL 
+[DataCode] [varchar](200) COLLATE Chinese_PRC_CI   NULL 
+
+
+
+
+
+CREATE TABLE [dbo].[T_Authd] (
+	[ID] [int] IDENTITY (1010, 2121) NOT NULL 
+)  
+
+
+
+
+（1）
+[列名]
+
+数据类型
+长度
+
+标识
+标识种子
+标识自增量
+
+COLLATE名称
+
+允许空
+
+默认值
+默认值约束名
+
+（2）
+备注
+（3）
+主码 和 unique 约束

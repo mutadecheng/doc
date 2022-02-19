@@ -1,0 +1,10 @@
+在C:\Windows\System32\drivers\etc下有一个host文件，
+
+
+在里面可以修改本地的域名，
+比如我文件里添加一行：
+
+192.168.1.100 u18.serset.com
+
+
+这就便是我将本地的ip用u18.serset.com代替了

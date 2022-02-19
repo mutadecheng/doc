@@ -1,0 +1,50 @@
+#系统备份
+> https://www.cnblogs.com/flyflit/p/13117874.html
+> https://www.runoob.com/linux/linux-comm-tar.html
+> tar会同时存储文件的拥有者读写权限等信息，而zip没有
+> -C<目的目录>或--directory=<目的目录> 切换到指定的目录。
+
+#备份系统
+tar cvpzf /root/backup/backup.tgz --exclude=/root/backup --exclude=/sys --exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/srv  /
+ 
+
+#恢复系统
+tar xvpfz backup.tgz -C /
+#创建被排除的目录
+mkdir proc
+mkdir lost+found
+mkdir mnt
+mkdir sys
+#恢复文件属性
+restorecon -Rv /
+
+#重启即可
+
+
+#----------------------------------------------------
+#备份文件夹(相对路径)
+cd /root
+tar cvpzf /root/backup/docker/aliDocker$(date +"%Y-%m-%d_%H%M").tgz -C /root docker
+
+cd /root/docker
+tar cvpzf mc.tgz -C /root/docker mc
+
+
+
+#还原文件夹
+cd /root/temp
+tar xvpfz /root/backup/docker/aliDocker2021-12-09_2116.tgz
+
+cd /root/temp
+tar xvpfz mc.tgz
+
+
+
+
+
+#备份文件夹(记录绝对路径)
+tar cvpzf /root/docker.tgz   /root/docker
+
+#还原文件夹
+cd /
+tar xvpfz /root/docker.tgz

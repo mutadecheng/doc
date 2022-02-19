@@ -1,0 +1,10 @@
+---  ×Ö·û´® ×ª Êý×é
+select tbTag.strIndex,substring_index(substring_index(tbTag.tags,',',b.help_topic_id+1),',',-1)  as tag
+from 
+(select 1 as strIndex, 'a1,a2,a3' as tags
+union all select 2 as strIndex, 'a1,a2,a4,45,a6' as tags
+) tbTag
+join
+mysql.help_topic b
+on b.help_topic_id < (length(tbTag.tags) - length(replace(tbTag.tags,',',''))+1)
+order by tbTag.strIndex;

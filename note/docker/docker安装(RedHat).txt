@@ -1,0 +1,74 @@
+ -------------------------------------------------------------
+https://blog.csdn.net/bjywxc/article/details/103373730
+Redhat8安装docker
+
+
+#查看 Redhat 版本
+cat /etc/redhat-release 
+
+#生成缓存
+yum clean all 
+yum makecache
+
+
+#1、安装所需的软件包
+yum install wget curl -y
+wget http://mirrors.163.com/.help/CentOS7-Base-163.repo
+yum install -y yum-utils device-mapper-persistent-data lvm2
+
+
+#安装iptables
+yum install iptables-services -y
+#设置开机启动，保存设置
+systemctl enable iptables
+systemctl start iptables
+
+
+#2、下载docker软件源
+curl  https://download.docker.com/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo
+ 
+ls -l /etc/yum.repos.d/docker-ce.repo
+yum clean all
+
+
+#3、安装docker
+yum install docker-ce docker-ce-cli containerd.io -y
+ 
+#4、启动docker查看版本
+systemctl start docker 
+docker version 
+
+#5、设置开机启动
+systemctl enable docker
+
+
+----------------------------------------------------------------
+https://www.imooc.com/article/301459
+
+
+安装较旧版本的docker-ce：
+
+sudo dnf install docker-ce-3:18.09.1-3.el7
+
+ 启动并启用Docker守护程序：
+
+sudo systemctl enable --now docker
+
+将用户添加到docker组：
+sudo usermod -aG docker $USER
+
+添加用户后，注销并重新登录，以便用户无需使用sudo（出于安全目的）即可使用docker引擎。
+
+接下来，使用以下命令安装containerd.io软件包：
+
+sudo dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm -y
+
+
+完成后，使用以下命令安装最新版本的docker-ce：
+sudo dnf install docker-ce -y
+
+
+设置开机启动
+# sudo systemctl enable docker
+ 
+ 

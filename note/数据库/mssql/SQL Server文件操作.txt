@@ -1,0 +1,84 @@
+--------------------------------------------------------------------------------------
+读文件
+
+select BulkColumn as fileContent,'T:\机电合并.zip' as [filePath]
+from  OPENROWSET(BULK N'T:\机电合并.zip',SINGLE_BLOB) as content;
+
+--------------------------------------------------------------------------------------
+写文件
+https://www.cnblogs.com/bluedy1229/p/7207865.html
+---------------------
+--获取高级选项状态
+EXEC SP_CONFIGURE 'show advanced options'
+
+--打开高级选项
+EXEC SP_CONFIGURE 'show advanced options', 1;
+RECONFIGURE;
+--启用执行CMD命令
+EXEC SP_CONFIGURE 'xp_cmdshell', 1;
+RECONFIGURE;
+
+
+--------------------------------------------------------------------------------------
+先读后写
+
+declare @fileContent varbinary(MAX);
+
+select @fileContent=BulkColumn  from OPENROWSET(BULK 'T:\机电合并.zip', SINGLE_BLOB) as content;
+
+if Exists(select top 1 * from sysObjects where Id=OBJECT_ID(N'sqler_temp_filebuffer') and xtype='U')
+	drop table sqler_temp_filebuffer;
+
+select @fileContent as fileContent into sqler_temp_filebuffer;
+
+
+exec master..xp_cmdshell 'bcp "select null union all select ''0'' union all select ''0'' union all select null union all select ''n'' union all select null " queryout "T:\file.fmt" /T /c'
+
+
+
+exec master..xp_cmdshell 'BCP "SELECT fileContent FROM sqler_temp_filebuffer" queryout "T:\file.zip" -T -i "T:\file.fmt"'
+
+
+
+if Exists(select top 1 * from sysObjects where Id=OBJECT_ID(N'sqler_temp_filebuffer') and xtype='U')
+	drop table sqler_temp_filebuffer;
+
+
+
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+---------------------
+--创建cmd命令行回应文件
+exec master..xp_cmdshell 'bcp "select null union all select ''0'' union all select ''0'' union all select null union all select ''n'' union all select null " queryout "T:\file.fmt" /T /c'
+
+
+
+exec master..xp_cmdshell 'BCP "SELECT fileContent FROM tfile" queryout "T:\file.zip" -T -i "T:\file.fmt"'
+
+
+
+--删除cmd命令行回应文件
+exec master..xp_cmdshell 'del "T:\file.fmt"' 
+
+---------------------
+--关闭执行CMD命令
+EXEC SP_CONFIGURE 'xp_cmdshell', 0;
+RECONFIGURE;
+--关闭高级选项
+EXEC SP_CONFIGURE 'show advanced options', 0;
+RECONFIGURE;
+
+
+--------------
+drop table tfile;
+
+select BulkColumn as fileContent  
+into tfile
+from   OPENROWSET(BULK N'T:\机电合并.zip',SINGLE_BLOB) as content;
+
+select * from tfile;

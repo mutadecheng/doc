@@ -54,7 +54,7 @@ docker restart nuget
 docker rm nuget -f
 
 #进入容器执行命令
-docker  exec -it nuget /bin/sh
+docker exec -it nuget /bin/sh
 ```
 
 # 4.nuget包管理命令

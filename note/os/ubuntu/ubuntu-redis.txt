@@ -1,0 +1,29 @@
+https://www.cnblogs.com/zongfa/p/7808807.html
+
+
+1.安装Redis服务器端
+sudo apt-get install redis-server
+
+
+
+2.让Redis服务器被远程访问
+修改文件/etc/redis/redis.conf
+
+1)打开配置文件把下面对应的注释掉
+# bind 127.0.0.1 
+
+//2)Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程 
+daemonize yes
+
+3)保护模式
+protected-mode no 
+
+
+
+修改后，重启Redis服务器。
+sudo /etc/init.d/redis-server restart
+ 
+
+
+
+

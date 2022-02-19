@@ -47,24 +47,24 @@ docker rm nginx -f
 
 
 #进入容器执行命令
-docker  exec -it nginx bash
+docker exec -it nginx bash
 
 #测试配置是否有语法错误
 nginx -t
-docker  exec -it nginx nginx -t
+docker exec -it nginx nginx -t
 
 #重新加载配置  
 nginx -s reload
-docker  exec -it nginx nginx -s reload
+docker exec -it nginx nginx -s reload
 
 #重新加载配置|重启|停止|退出
 nginx -s reload|reopen|stop|quit  
 
 
 #从宿主机拷贝文件到容器
-docker cp  nginx:/etc/nginx/nginx.conf /root/nginx/
-docker cp  nginx:/etc/nginx/conf.d/ /root/nginx/conf.d
-docker cp  nginx:/usr/share/nginx/html/ /root/nginx/html/
+docker cp nginx:/etc/nginx/nginx.conf /root/nginx/
+docker cp nginx:/etc/nginx/conf.d/ /root/nginx/conf.d
+docker cp nginx:/usr/share/nginx/html/ /root/nginx/html/
 
 ```
  

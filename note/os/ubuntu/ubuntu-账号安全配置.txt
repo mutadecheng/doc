@@ -1,0 +1,18 @@
+
+1.用户修改口令，不能修改为弱口令
+弱口令定义
+https://www.cnblogs.com/zhongguiyao/p/8258559.html
+ 
+
+2.设置密码复杂度
+sudo  vi  /etc/pam.d/common-password  
+寻找同时包含“password”和“pam_cracklib.so”的一行，并在后面加上“ucredit=-1 lcredit=-2 dcredit=-1 ocredit=-1”。这将迫使你在密码中至少包括一个大写字母、两个小写字母、一个数字和一个符号。
+
+
+
+3.登录失败，锁定用户
+https://www.cnblogs.com/klb561/p/9236360.html
+https://my.oschina.net/u/210131/blog/625754
+
+#vim /etc/pam.d/login 和 /etc/pam.d/common-auth
+auth required pam_tally2.so deny=5 unlock_time=1800 even_deny_root root_unlock_time=1800   写在第一行

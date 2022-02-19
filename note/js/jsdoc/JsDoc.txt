@@ -1,0 +1,93 @@
+
+:: 全局安装jsDoc 
+npm install -g jsdoc
+
+:: 生成文档
+jsdoc BeViewer.js 
+
+::根据配置文件生成文档
+jsdoc -c jsdoc.json
+
+
+::----------------------------
+::使用主题
+JSDoc 默认的主题可能不近如人意，只要我们对应 install 下来配置就行。推荐两款还不错的主题：
+
+docdash
+minami
+ 
+#下载
+npm install docdash --save-dev
+npm install minami --save-dev
+
+#在 jsdoc.json 文件中配置
+{
+  "opts": {
+    "template": "node_modules/docdash"
+  }
+}
+
+
+#---------------------------------------------------------------
+
+https://blog.csdn.net/qq_38274119/article/details/108318308
+
+// src: ['my-lib/*/*.js', '!my-lib/doc/**/*.js'],
+
+
+ES6写JSDoc的一些经验和实例
+ https://blog.csdn.net/jennieji/article/details/82587516
+
+
+ 
+https://cloud.tencent.com/developer/article/1562625
+
+
+
+#安装依赖：
+#npm i --save-dev babel-core babel-preset-env jsdoc jsdoc-babel
+
+
+#---------------------------------------------------------------
+# jsdoc 注释规范
+
+对象注释
+/**
+* Book类，代表一个书本.
+* @constructor
+* @param {string} title - 书本的标题.
+* @param {string} author - 书本的作者.
+*/
+ 
+
+/**
+* @namespace
+* @property  {string} arr.aa 说明
+*/
+
+函数注释
+// utils.js
+/**
+* @file 这是工具库文件，提供通用的方法
+* @version 0.0.1
+* @todo 英文字母和数字的对应关系的方法
+* @author chxu
+/*
+
+
+/**
+* @desc 根据key获取对应的值
+* @see setValue
+* @param {obj} item 一个对象
+* @return {string|*} key 返回值是字符串
+*/
+function getValue (item, key) {
+	return item[key]
+}
+
+/**
+* @param {string}  [value] [xx]表示xx是可选参数
+*/
+function setValue (key, value, item) {
+	// do something
+}

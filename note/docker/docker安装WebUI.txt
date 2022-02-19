@@ -1,0 +1,12 @@
+----------------------------------------
+docker ui£º
+https://www.cnblogs.com/jay-fred/p/9956893.html
+
+---------------------------------
+//ÏÂÔØ¾µÏñ
+docker pull uifd/ui-for-docker 
+
+//Æô¶¯
+docker run -it -d --name docker-web -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock docker.io/uifd/ui-for-docker
+
+http://127.0.0.1:9000 

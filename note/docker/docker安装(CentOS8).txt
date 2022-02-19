@@ -1,0 +1,56 @@
+https://www.cnblogs.com/zbseoag/p/11736006.html
+
+ 
+
+#安装依赖
+sudo yum install -y yum-utils  device-mapper-persistent-data  lvm2
+#添加镜像源
+sudo yum-config-manager  --add-repo   https://download.docker.com/linux/centos/docker-ce.repo
+
+#//安装最新版docker     sudo yum install docker-ce docker-ce-cli containerd.io -y  --nobest --allowerasing
+
+#查看docker可安装版本列表
+sudo yum list docker-ce --showduplicates|sort -r 
+sudo yum list containerd.io --showduplicates|sort -r 
+#安装指定版本docker
+sudo yum install containerd.io-1.4.3-3.1.el8 -y
+sudo yum install docker-ce-cli-19.03.14-3.el8 -y
+sudo yum install docker-ce-19.03.14-3.el8 -y 
+ 
+
+#查看docker版本
+docker --version
+
+#启动 Docker
+sudo systemctl start docker
+
+#设置开机启动
+sudo systemctl enable docker
+
+
+
+-----------------------------------------
+#镜像加速 在配置文件/etc/docker/daemon.json 中加入（没有则创建）：
+{
+  "registry-mirrors": ["https://d8b3zdiw.mirror.aliyuncs.com","https://hub-mirror.c.163.com"]
+}
+
+#reload配置文件
+systemctl daemon-reload
+#重启docker服务
+systemctl restart docker
+---------------------------------------------------------------------------------------------------------------------------
+CentOS 卸载Docker
+https://blog.csdn.net/zsgcsdn/article/details/79539689
+
+#1.查询安装过的软件包
+yum list installed | grep docker
+#docker-client.x86_64            2:1.13.1-53.git774336d.e17.centos
+#docker-common.x86_x64     2:1.13.1-53.git774336d.e17.centos
+#docker-ce-rootless-extras.x86_64  20.10.0-3.el8 
+
+#2.删除安装的软件包
+yum -y remove containerd.io.x86_64
+yum -y remove docker-ce.x86_64
+yum -y remove docker-ce-cli.x86_64
+yum -y remove docker-ce-rootless-extras.x86_64

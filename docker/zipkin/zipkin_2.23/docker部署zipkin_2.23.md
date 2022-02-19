@@ -38,7 +38,7 @@ docker restart zipkin
 docker rm zipkin -f
 
 #进入容器执行命令
-docker  exec -it zipkin /bin/sh
+docker exec -it zipkin /bin/sh
 ```
  
 

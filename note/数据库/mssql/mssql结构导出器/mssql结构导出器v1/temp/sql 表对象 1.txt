@@ -1,0 +1,63 @@
+ 
+declare @tbName varchar(100)
+
+set @tbName = 'T_Auth'
+
+
+--(1) 获取字段基础信息
+ 
+create table #col(
+[col_name] varchar(200)
+,[col_id] int
+,[col_typename] varchar(200)
+,[col_len] int
+,[col_prec] varchar(200)
+,[col_scale] varchar(200)
+,[col_basetypename] varchar(200)
+,[col_defname] varchar(200)
+,[col_rulname] varchar(200)
+,[col_null] int
+,[col_identity] int
+,[col_flags] int
+,[col_seed] int
+,[col_increment] int
+,[col_dridefname] varchar(200)
+,[text] varchar(200) --列名重复
+,[col_iscomputed] varchar(200)
+,[col_text] varchar(200) --与text列名重复改为col_text
+,[col_NotForRepl] int
+,[col_fulltext] int
+,[col_AnsiPad] int
+,[col_DOwner] int
+,[col_DName] varchar(200)
+,[col_ROwner] int
+,[col_RName] varchar(200)
+,[collation] varchar(200)
+,[ColType] varchar(200)
+,[column1] int --无列名
+,[column2] int --无列名
+)
+
+insert into #col  exec sp_MShelpcolumns @tbName
+  
+
+select [col_name] [列名],   col_typename 数据类型,col_len 长度,   col_identity 标识,col_seed 标识种子,col_increment 标识自增量          ,collation  COLLATE名称        ,col_null 允许空          ,[text] 默认值,col_dridefname 默认值约束名    from #col
+
+drop  table #col
+ 
+
+
+
+
+
+--（2.1）  获取字段的备注
+select objname,[value]  from ::fn_listextendedproperty(null,N'user',N'dbo',N'table',@tbName,N'column',null) where 1=1
+
+
+--（2.2）  'PRIMARY KEY' 和 'UNIQUE'
+select  t1.Constraint_Name,t1.TABLE_NAME,t1.COLUMN_NAME,t2.CONSTRAINT_TYPE 
+from information_schema.key_column_usage t1 
+left join information_schema.table_constraints t2 on t1.Constraint_Name=t2.Constraint_Name 
+where t1.TABLE_NAME=@tbName
+
+ 

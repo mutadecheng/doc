@@ -1,0 +1,19 @@
+https://www.codercto.com/a/61576.html
+
+
+
+包含外部文件夹
+
+	<ItemGroup>
+		<Content Include="..\App.Gover.Gateway\wwwroot\**">
+			<Link>wwwroot\%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<!--<ItemGroup>
+		<Content Include="..\App.Gover.Gateway\**">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Remove="..\App.Gover.Gateway\App.Gover.Gateway.csproj" />
+	</ItemGroup>-->

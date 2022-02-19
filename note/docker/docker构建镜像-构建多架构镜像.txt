@@ -1,0 +1,26 @@
+docker构建多架构镜像
+https://yeasy.gitbook.io/docker_practice/image/manifest
+
+
+#开启实验特性 
+export DOCKER_CLI_EXPERIMENTAL=enabled
+
+
+#创建 manifest 列表
+
+#docker manifest rm serset/sers_dotnet:2.1
+docker manifest create serset/sers_dotnet:2.1  serset/sers_dotnet:2.1 serset/sers_dotnet_arm32:2.1
+
+#设置 manifest 列表
+docker manifest annotate serset/sers_dotnet:2.1  serset/sers_dotnet:2.1 --os linux --arch amd64
+docker manifest annotate serset/sers_dotnet:2.1 serset/sers_dotnet_arm32:2.1 --os linux --arch arm
+ 
+
+#查看 manifest 列表
+docker manifest inspect serset/sers_dotnet:2.1
+
+
+
+#推送 manifest 列表
+docker login -u serset -p ***
+docker manifest push serset/sers_dotnet:2.1

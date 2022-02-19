@@ -72,7 +72,7 @@ docker restart jenkins
 docker rm jenkins -f
 
 #进入容器执行命令
-docker  exec -it jenkins bash
+docker exec -it jenkins bash
 ```
  
 

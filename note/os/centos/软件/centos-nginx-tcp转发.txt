@@ -1,0 +1,17 @@
+https://blog.csdn.net/zhang201322/article/details/79580184
+
+
+tcp转发的配置
+nginx的tcp转发比较简单，具体的配置文件如下：
+
+stream {
+
+    server {
+        ## ipv6监听80端口 listen [::1]:80;
+        listen 2018; ##这个没有具体测试，不知道是否能够监听ipv6，ipv4肯定能够监听
+        proxy_pass aws.sers.cloud:2020;##把请求转发至aws.sers.cloud这个服务器
+    }
+}
+ 
+stream这个块在nginx的配置文件的顶级块里面，和原来http的块同属一个层级
+ 

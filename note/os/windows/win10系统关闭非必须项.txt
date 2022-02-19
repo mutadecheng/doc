@@ -1,0 +1,24 @@
+local session manager 是什么
+
+win10系统关闭非必须项
+https://blog.csdn.net/sky__god/article/details/77914698
+
+禁用 Diagnostics Tracking Service和Connected User Experiences and Telemetry 
+这个服务是用来服务跟踪诊断的，就是在咱们使用系统的时候不停地收集系统信息，是微软的一个搜集工具而已。在很多情况下，CPU的高占用率就是它搞的鬼。 
+win+R 运行 services.msc 进入服务，禁用Diagnostics Tracking Service ，若找不到这个服务的话那就是禁用Diagnostic Policy Service，然后禁用Connected User Experiences and Telemetry 就好。
+
+--------------------------------------------------------
+关闭允许后台运行的软件 
+打开系统设置— 隐私 —后台应用 关闭不需要的应用即可 （大多数其实都没什么用可以直接关闭最上方按钮）
+
+--------------------------------------------------------
+
+关闭小娜 （需要使用的略过此项） 
+使用组策略禁用Cortana 
+　　 
+　　1、使用 Windows + R 快捷键打开「运行」— 执行 gpedit.msc 打开组策略编辑器。 
+　　2、导航到「计算机配置」—「管理模板」—「Windows 组件」—「搜索」。 
+　　3、在右侧面板中找到「允许使用 Cortana」条目，将其设置为「已禁用」即可。
+
+　　组策略自动刷新之后即可生效，如果你等不急，可以重启计算机让其立即生效。 
+　　禁用该条策略会关闭当前 Windows 10 的 Cortana 功能，但在关闭 Cortana 后，用户仍可以使用搜索来查找设备上的内容。

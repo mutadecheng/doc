@@ -1,0 +1,73 @@
+https://www.cnblogs.com/harrymore/p/10307769.html
+
+http://www.linuxdown.net/install/2018/1017/28030.html
+
+3.10.0-1062.1.1.el7.x86_64
+--------------------------------------------------
+http://www.linuxdown.net/install/2018/1017/28030.html
+ yum -y install gcc kernel-devel kernel-headers
+
+
+--------------------------------------------------
+https://centos.pkgs.org/7/centos-updates-x86_64/kernel-devel-3.10.0-1062.1.1.el7.x86_64.rpm.html
+
+ 
+
+
+--------------------------------------------------
+//(x.2)安装 kernel-devel
+https://blog.csdn.net/llianlianpay/article/details/79852403
+
+//查看已安装kernel-devel
+uname -a ; rpm -qa kernel\* | sort
+
+//查看系统内核
+uname -r
+
+//卸载已安装的内核
+yum remove kernel-devel-3.10.0-1062.1.2.el7.x86_64
+
+
+//下载对应的rpm
+https://centos.pkgs.org/7/centos-updates-x86_64/kernel-devel-3.10.0-1062.1.1.el7.x86_64.rpm.html
+
+//安装对应的内核 
+rpm -ivh /root/temp/kernel-devel-3.10.0-1062.1.1.el7.x86_64.rpm
+
+//-i是安装，-v是列出更多详细信息，-h是在安装时列出hash标记
+
+--------------------------------------------------
+//(x.3)安装其他依赖：
+yum -y install gcc dkms
+
+//shutdown -r now
+--------------------------------------------------
+//(x.4)安装显卡驱动：
+
+cd /root/temp
+chmod +x NVIDIA-Linux-x86_64-430.09.run
+./NVIDIA-Linux-x86_64-430.09.run --no-opengl-files --kernel-source-path=/usr/src/kernels/3.10.0-1062.1.1.el7.x86_64 -k $(uname -r)
+
+
+
+
+
+--------------------------------------------------
+//(x.5)安装GNOME 图形界面
+https://www.linuxidc.com/Linux/2018-04/152000.htm
+
+//安装X(X Window System)
+yum groupinstall "X Window System" 
+
+//检查一下我们已经安装的软件以及可以安装的软件
+yum grouplist
+
+//安装图形界面软件 GNOME
+yum groupinstall "GNOME Desktop" "Graphical Administration Tools"
+
+//使系统启动即为图形化窗口
+ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target
+
+//启动图形界面
+startx
+

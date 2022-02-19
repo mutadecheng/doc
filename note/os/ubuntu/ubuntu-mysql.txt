@@ -1,0 +1,91 @@
+Database=db_aaa;Data Source=192.168.3.172;SslMode = none;User Id=root;Password=123456;pooling=true;CharSet=utf8;port=3306
+
+-----------------
+https://www.cnblogs.com/opsprobe/p/9126864.html
+
+执行命令：
+sudo apt-get install mysql-server
+apt-get install mysql-client
+sudo apt-get install libmysqlclient-dev
+
+2.设置mysql允许远程访问
+编辑文件 /etc/mysql/mysql.conf.d/mysqld.cnf
+
+注释掉 bind-address = 127.0.0.1
+
+
+3.修改数据库
+
+//默认密码为空
+mysql -u root -p 
+
+use mysql; 
+update user set host = '%' where user = 'root';
+
+
+update user set authentication_string=password('123456') where user='root';
+ 
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456'; 
+#更新一下用户的密码 root用户密码为newpassword
+
+
+
+4.重启mysql：
+service mysql restart
+
+
+
+
+
+
+
+
+
+
+
+---------------------------
+解决Navicat 出错:1130-host . is not allowed to connect to this MySql server,MySQL
+https://blog.csdn.net/zz_lkw/article/details/79937252
+
+可能是你的帐号不允许从远程登陆，只能在localhost。
+这个时候只要在localhost的那台电脑，登入mysql后，更改 "mysql" 数据库里的 "user" 表里的 "host" 项，从"localhost"改称"%"
+
+
+mysql -u root -p
+
+use mysql;
+update user set host = '%' where user = 'root';
+
+
+select host, user from user;
+
+----------------------------
+修改root密码(默认密码为空)
+https://blog.csdn.net/lym152898/article/details/53897260
+
+
+1.查看文件 /etc/mysql/debian.cnf 获取 用户debian-sys-maint 的密码。
+2.使用这个文件中的用户名和密码进入mysql
+mysql -u debian-sys-maint -p
+
+3.选择mysql数据库（用户名和密码均存储在此数据库的user表中）
+
+
+$ use mysql;
+
+
+ 
+这时使用下列命令可以看到所有用户名和其所对应的密码
+
+
+$ select user,authentication_string from user
+;
+
+  4.利用update命令即可完成密码重设
+
+
+update user set authentication_string=password('123456') where user='root';
+ 
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456'; 
+#更新一下用户的密码 root用户密码为newpassword
+

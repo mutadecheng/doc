@@ -1,0 +1,8 @@
+https://blog.csdn.net/discover2210212455/article/details/82711930
+
+//获取cpu序列号
+wmic CPU get ProcessorID
+
+
+//获取内存芯片信息
+wmic memorychip get PartNumber, SerialNumber

@@ -1,0 +1,41 @@
+启用swap
+http://mengniuge.com/阿里云linux系统启用swap的方法.html
+
+
+
+
+#(x.1)增加1G的swap空间(如果想增加更多的swap空间，改count=后面的数字)
+dd if=/dev/zero of=/home/swap bs=1MB count=1024
+
+#(x.2)制作一个swap文件
+mkswap /home/swap
+
+#设置文件权限
+chmod 600 /home/swap && chown root:root /home/swap
+ 
+
+#(x.3)启动swap分区
+swapon /home/swap
+
+#此操作只对当前有效，重启服务器后失效。如果想持续保持。可以将其写入/etc/fstab文件
+#vim /etc/fstab
+/home/swap                       swap                swap    defaults        0 0
+
+
+
+执行完以上操作以后，你可能一时半会儿看不到系统去使用swap虚拟内存。因为系统默认设置是尽可能的使用物理内存，物理内存紧张时才用虚拟内存。
+如果要改变这个设置，可以修改/etc/sysctl.conf文件里面的vm.swappiness参数。系统默认的vm.swappiness=0，意思是尽可能少用swap，而不是完全禁止使用swap。这个值越大，使用swap的几率越高。最高是100。网上不少人说设置成60合适，好像ubuntu系统默认的就是60。这个根据个人想法设置一下就行了。修改完这个文件以后执行sysctl -p命令生效。
+
+
+
+
+
+#关闭 swap
+#https://www.jianshu.com/p/6dae5c2c4dab
+#(x.x.1)删除 swap 区所有内容
+swapoff -a
+
+#(x.x.2)删除 swap 挂载，系统下次启动不会挂载 swap
+#注释/etc/fstab文件中的swap行
+nano /etc/fstab
+#/dev/mapper/cl-swap     swap                    swap    defaults        0 0

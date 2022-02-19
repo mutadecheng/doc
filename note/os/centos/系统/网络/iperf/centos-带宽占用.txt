@@ -1,0 +1,21 @@
+https://www.cnblogs.com/agang-php/p/6210900.html
+
+
+#查看实时数据流量
+yum install iftop -y
+
+iftop -i ens2f1
+
+
+
+
+# sar 查看实时网速
+#https://blog.csdn.net/wangshuminjava/article/details/84956564
+
+#2秒显示一次，共显示1次
+sar -n DEV 2 1
+
+
+
+sar -n DEV 2 1  | grep ens2f1
+

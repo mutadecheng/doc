@@ -1,0 +1,85 @@
+https://www.cnblogs.com/stulzq/p/9201830.html
+
+#创建 镜像
+cd /root/docker/Sers1.2.0
+
+docker build -t sers/dotnet/servicecenter:v1.2.0 .
+
+-------------------------------------------------------
+#查看images
+docker images 
+
+#删除指定镜像
+docker rmi sers/dotnet/servicecenter:v1.2.0 -f
+
+
+#删除所有未打 dangling 标签的镜像
+docker rmi $(docker images -q -f dangling=true)
+
+
+#强制删除镜像名称中包含“sers”的镜像
+docker rmi --force $(docker images | grep sers | awk '{print $3}')
+--------------------------------------------------------------------------------
+
+#停止名称中包含“mc”的容器
+docker stop $(docker ps -a | grep mc | awk '{print $1}')
+
+#停止所有的container，这样才能够删除其中的images：
+docker stop $(docker ps -a -q) 
+
+#删除所有container（容器）
+docker rm $(docker ps -a -q) -f
+
+#删除所有镜像
+docker rmi $(docker images -q) -f
+
+--------------------------------------------------------------------------------
+#查看镜像和容器的数量
+docker system df
+
+#删除 所有未被容器使用的镜像
+docker image prune -a
+
+#删除 所有未被 tag 标记和未被容器使用的镜像
+docker image prune
+
+#删除 所有停止运行的容器
+docker container prune 
+
+#删除 所有未被挂载的卷
+docker volume prune
+
+
+
+
+#清除docker镜像缓存 
+docker system prune --volumes
+ 
+该命令清除：
+所有停止的容器
+所有不被任何一个容器使用的网络
+所有不被任何一个容器使用的volume
+所有无实例的镜像
+
+
+--------------------------------------------------------------------------------
+#导出镜像
+docker save -o /root/image/sers_cpp_cgateway.1.2.0.tar serset/sers_cpp_cgateway:1.2.0
+
+#导入镜像
+docker load -i /root/image/sers_cpp_cgateway.1.2.0.tar
+
+
+--------------------------------------------------------------------------------
+#获取仓库中的镜像列表
+https://mcr.microsoft.com/v2/_catalog
+
+#获取镜像的标签列表
+https://mcr.microsoft.com/v2/dotnet/aspnet/tags/list
+ 
+
+
+
+ 
+
+

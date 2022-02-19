@@ -1,0 +1,63 @@
+当使用的显示器不能被 Linux 正确识别，从而无法使用最佳的分辨率，可以通过以下方法来更改分辨率。
+
+（1）首先使用 xrandr 命令列出当前所能检测到的分辨率，如一台显示器，最佳分辨率为 1440x900，由于
+    未能正确检测，使用 xrandr 命令结果如下：
+
+    Screen 0: minimum 320 x 200, current 1440 x 900, maximum 8192 x 8192
+    VGA1 connected 1440x900+0+0 (normal left inverted right x axis y axis) 0mm x 0mm
+       1360x768       59.8
+       1024x768       60.0
+       800x600        60.3     56.2
+       848x480        60.0
+       640x480        59.9     59.9
+
+    可以看到当前使用的显卡是 VGA1（后续显示模式在此显卡上添加），列表中并无 1440x900 的分别率可用。
+
+（2）这时可以使用 xrandr 命令新增显示模式，由于显示模式有一定的格式，如果不知道如何配置，可以通过
+    cvt 来获得。
+
+（3）cvt 使用方法：cvt X Y，X 表示分辨率宽度，Y 表示分辨率高度。如生成 1400x900 的分辨率，可使
+    用命令：
+
+    cvt 1440 900
+
+    默认刷新率为 60.0Hz。生成以下模式：
+
+    # 1440x900 59.89 Hz (CVT 1.30MA) hsync: 55.93 kHz; pclk: 106.50 MHz
+    Modeline "1440x900_60.00"  106.50  1440 1528 1672 1904  900 903 909 934 -hsync +vsync
+
+（4）将 cvt 得到的显示模式使用 xrandr 命令添加：
+
+    sudo xrandr --newmode "1440x900"  106.50  1440 1528 1672 1904  900 903 909 934 -hsync +vsync
+    sudo xrandr --addmode VGA1 1440x900
+    sudo xrandr --output VGA1 --mode 1440x900
+
+（5）这时就可以在显示器分辨率设置里使用 1440x900 的分辨率了。
+
+（6）可能在每次开机时，又不能使用设定好的分辨率了，可以将上述命令添加到 X 图形界面的启动命令中。使
+    用如下命令：
+
+    sudo gedit /etc/gdm/Init/Default
+
+    打开 X 图形界面的启动配置文件，将第（4）步的三个命令如下添加（注意要在最后一个命令前），即可在每次
+    启动 X 图形界面时自动使用设置的分辨率。
+
+    sudo xrandr --newmode "1440x900"  106.50  1440 1528 1672 1904  900 903 909 934 -hsync +vsync
+    sudo xrandr --addmode VGA1 1440x900
+    sudo xrandr --output VGA1 --mode 1440x900
+    /sbin/initctl -q emit login-session-start DISPLAY_MANAGER=gdm
+
+（7）如果开机后任务栏显示不正常，可以通过以下脚本关闭重新启动任务栏来纠正。
+
+    gconftool-2 --shutdown
+    rm -rf ~/.gconf/apps/panel
+
+    pkill gnome-panel
+
+
+
+
+
+
+
+转自：http://blog.csdn.net/metaphysis/article/details/6885767

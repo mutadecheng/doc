@@ -1,0 +1,12 @@
+
+dotnet 运行 常见错误 Couldn't find a valid ICU package installed on the system
+
+安装ICU：
+
+yum -y install libicu-devel
+yum install libunwind
+yum install libicu
+由于可能有各种环境，把这三个相关的包都安装了吧。
+
+查看是否安装成功：
+icu-config --version

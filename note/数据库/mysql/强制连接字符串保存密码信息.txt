@@ -1,0 +1,3 @@
+强制连接字符串保存密码信息
+https://blog.csdn.net/actionmr/article/details/2172549
+连接字符串加 "Persist Security Info=True;"

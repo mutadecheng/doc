@@ -1,0 +1,30 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+acl innet {  
+        112.64.143.0/24;
+}; 
+view "home" {
+    match-clients {
+        innet;
+    };
+    zone "lith.cloud" {
+	type master;
+	file "/var/lib/bind/home.lith.cloud.hosts";
+    };
+};
+
+view "internet" {
+    match-clients {
+        any;
+    };
+    zone "lith.cloud" {
+	type master;
+	file "/var/lib/bind/lith.cloud.hosts";
+    };
+};

@@ -21,16 +21,17 @@ $CONFIG = array (
   'passwordsalt' => 'S5XvgsS43HHUE/HM/1JJLzMAWT4JCk',
   'secret' => '5ZL8W5rtE1HJYYwiZKSzWhAupraR0l92GabInz2hnoW1RGEp',
   'trusted_domains' => 
-  array (
-    0 => 'pan.sers.cloud:6106',
-  ),
+    array (
+        0 => '127.0.0.1',
+        1 => preg_match('/cli/i',php_sapi_name())?'127.0.0.1':$_SERVER['SERVER_NAME'],
+    ),
   'trusted_proxies' => 
-  array (
-    0 => '10.0.2.2',
-    1 => '172.17.0.7',
-  ),
-  'overwritehost' => 'pan.sers.cloud:6106',
-  'overwriteprotocol' => 'https',
+    array (
+      0 => '10.0.2.2',
+      1 => '172.17.0.7',
+    ),
+  #'overwritehost' => 'pan.sers.cloud:6106',
+  #'overwriteprotocol' => 'https',
   //'overwritecondaddr' => '^(172|10)\.[0-9]+\.[0-9]+\.[0-9]+$', 
   'allow_local_remote_servers' => true,
   'datadirectory' => '/var/www/html/data',

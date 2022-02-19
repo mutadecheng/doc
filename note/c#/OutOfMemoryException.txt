@@ -1,0 +1,11 @@
+
+
+
+
+https://docs.microsoft.com/en-us/dotnet/api/system.outofmemoryexception?view=net-5.0
+
+https://docs.microsoft.com/zh-cn/dotnet/core/run-time-config/garbage-collector?wt.mc_id=docsexp6_personal-blog-marouill
+
+
+
+https://github.com/dotnet/runtime/issues/13105

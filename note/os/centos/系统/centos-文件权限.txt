@@ -1,0 +1,11 @@
+
+#赋予所有权
+chmod 777 -R /root/docker/nextcloud/nextcloud/html/custom_apps
+
+
+
+#改变拥有者为指定的用户或组
+#chown [-cfhvR] user[:group] file...
+chown -R 33:33 /root/docker/clean-wordpress/wordpress/html/wp-content/themes
+
+

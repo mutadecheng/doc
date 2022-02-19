@@ -1,0 +1,69 @@
+﻿
+-------------------------------
+https://mp.weixin.qq.com/s?src=11&timestamp=1593664729&ver=2435&signature=cS1ROr1TMPKNQUtWlU*VI6-nNQeuC-h5C7X*zKIDcxDpHaBP3Sx-sy3XvrfkqGsvqTYGZiDfwMLtwoD0dkEo1a2jr0C71Fy*HHzvGeFsp3wJjFTR*HzKeRIW02XG6doV&new=1
+
+curl和wget的区别和使用
+
+curl和wget基础功能有诸多重叠，如下载等。非要说区别的话，curl由于可自定义各种请求参数所以在模拟web请求方面更擅长；wget由于支持ftp和Recursive所以在下载文件方面更擅长。类比的话curl是浏览器，而wget是迅雷9。
+
+1.下载文件
+
+curl -O http://man.linuxde.net/text.iso #O大写，不用O只是打印内容不会下载
+wget http://www.linuxde.net/text.iso #不用参数，直接下载文件
+
+2.下载文件并重命名
+
+curl -o rename.iso http://man.linuxde.net/text.iso #o小写
+wget -O rename.zip http://www.linuxde.net/text.iso #O大写
+
+3.断点续传
+
+curl -O -C - http://man.linuxde.net/text.iso #O大写，C大写
+wget -c http://www.linuxde.net/text.iso #c小写
+
+4.限速下载
+
+curl --limit-rate 50k -O http://man.linuxde.net/text.iso
+wget --limit-rate=50k http://www.linuxde.net/text.iso
+
+5.显示响应头部信息
+
+curl -I http://man.linuxde.net/text.iso
+wget --server-response http://www.linuxde.net/test.iso
+
+6.wget利器--打包下载网站
+
+wget --mirror -p --convert-links -P /var/www/html http://man.linuxde.net/
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+http://www.80vps.com/new6435.html
+
+wget批量下载远程FTP服务器上的文件
+
+
+在VPS的shell中利用wget下载旧虚拟主机中的site.tar.gz，使用FTP协议
+
+wget --ftp-user=username --ftp-password=password -m ftp://xxx.xxx.xxx.xxx/xxx/xxx/site.tar.gz
+
+wget --ftp-user=username --ftp-password=password -r -m -nh ftp://xxx.xxx.xxx.xxx/xxx/xxx/*
+
+上面就是命令了，FTP用户名密码参数不解释；
+
+-r 可选，表示递归下载，如果直接下载整个目录就需要该参数；
+
+-m 表示镜像，不解释；
+
+-nh表示不生成那一堆层级目录，直接从当前目录开始显示，非常好的参数；
+
+后面是ftp的地址，斜杠后的 * 表示下载该目录下的所有文件，如果只是一个文件，直接输入文件名即可。
+
+
+wget --ftp-user=lith --ftp-password=Admin0123 -r -m ftp://do.sers.cloud/*
+
+wget http://ali.sers.cloud:8/ftp/nuget.zip

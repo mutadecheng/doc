@@ -1,0 +1,17 @@
+﻿
+安装
+yum install zip -y 
+yum install unzip -y 
+
+zip 压缩
+格式：zip -r 压缩文件名 源目录 
+-r 选项指定你想递归地（recursively）包括所有包括在 filesdir 目录中的文件 
+不使用-r 只是把目录变成压缩包 目录里面的内容不会打包进去 
+例如： 
+ zip -r we.zip we 
+ 
+
+zip解压 
+unzip we.zip
+ 
+unzip Publish.zip -d /root/docker/teda

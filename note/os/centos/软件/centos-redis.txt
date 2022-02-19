@@ -1,0 +1,39 @@
+https://www.cnblogs.com/rslai/p/8249812.html
+
+
+1.安装Redis
+yum install redis
+
+2.设置redis为开机自动启动
+chkconfig redis on
+
+2.让Redis服务器被远程访问
+修改文件/etc/redis.conf
+
+1)打开配置文件把下面对应的注释掉
+# bind 127.0.0.1 
+
+//2)Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程 
+daemonize yes
+
+3)保护模式
+protected-mode no 
+
+修改后，重启Redis服务器。
+service redis restart
+
+--------------
+redis命令
+# 启动redis
+service redis start
+# 停止redis
+service redis stop
+# 查看redis运行状态
+service redis status
+# 查看redis进程
+ps -ef | grep redis
+ 
+
+
+
+

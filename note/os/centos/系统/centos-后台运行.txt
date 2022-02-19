@@ -1,0 +1,29 @@
+﻿杀死进程
+https://www.cnblogs.com/apexchu/p/4193660.html
+https://blog.csdn.net/andy572633/article/details/7211546
+
+ps -ef | grep 'dotnet /root/app/PortForward/PortForward.dll'
+
+查看所有进程
+ps -ef
+
+//杀死mc用户端 
+kill -s 9 `pgrep -f 'dotnet /root/app/PortForward/PortForward.dll'`
+
+安装ps
+apt-get update && apt-get install procps -y
+
+执行命令
+sh  -c "pgrep -f 'dotnet /root/app/PortForward/PortForward.dll'"
+
+------------------------------------
+后台执行脚本  
+https://www.cnblogs.com/deverz/p/11040743.html
+
+2>&1 表示将标准出错重定向到标准输出，由于我们的标准输出已经重定向到了 out.txt 文件，所以标准出错也会输出到 out.txt 文件中。
+
+------------------
+# run on back
+chmod 777 /home/be/docker/wmts/dotnet_wmts.bash
+nohup  sh /home/be/docker/wmts/dotnet_wmts.bash > /home/be/docker/wmts/dotnet_wmts.log 2>&1 &
+------------------

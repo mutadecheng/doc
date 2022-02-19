@@ -1,0 +1,92 @@
+CentOS7 安装
+
+---------------------------------------
+安装Nginx 
+https://www.centos.bz/2018/01/centos-7%EF%BC%8C%E4%BD%BF%E7%94%A8yum%E5%AE%89%E8%A3%85nginx/ 
+
+rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+安装该rpm后，我们就能在/etc/yum.repos.d/ 目录中看到一个名为nginx.repo 的文件。
+
+安装Nginx 
+yum install -y nginx
+
+---------------------------------------
+卸载
+yum remove nginx
+which nginx
+---------------------------------------
+开机自启动
+systemctl enable nginx
+
+取消开机自启动
+systemctl disable nginx
+---------------------------------------
+常用命令
+
+查看端口占用
+netstat -antp
+
+关闭进程
+kill -QUIT 12452
+
+---------------------------------------
+https://www.cnblogs.com/hailang8/p/8664413.html
+
+1 验证nginx配置文件是否正确
+nginx -t
+
+启动、停止、重载命令
+    systemctl start nginx.service
+    systemctl stop nginx.service
+    systemctl reload nginx.service
+    systemctl status nginx.service
+
+
+
+重启服务： service nginx restart 
+systemctl start nginx
+systemctl stop nginx
+2. 快速停止或关闭Nginx：nginx -s stop
+
+3. 正常停止或关闭Nginx：nginx -s quit
+4. 配置文件修改重装载命令：nginx -s reload
+
+
+
+
+-----------------------------------------------------------------
+Nginx 13: Permission denied 解决方案
+https://www.jb51.net/article/144314.htm
+
+ps -ef | grep nginx    ,查看nginx的进程信息
+
+
+------法2
+https://blog.csdn.net/yanjun821126/article/details/80828908
+
+1 安装semanage 
+ yum install policycoreutils-python
+
+2 查看当前有哪些受控端口可执行：
+semanage port -l | grep '^http_port_t'
+
+3 添加端口。为 Nginx 需要使用 8000 的端口用于 HTTP 服务。
+semanage port -a -t http_port_t -p tcp 8000
+
+若 报错ValueError: Port tcp/8000 already defined  则可以执行（修改端口权限）
+semanage port -m -t http_port_t -p tcp 8000
+
+------法3 不建议
+https://blog.51cto.com/liuqh/1839889
+权限拒绝，经检查发现是开启selinux 导致的。 直接关闭
+getenforce   这个命令可以查看当前是否开启了selinux 如果输出 disabled 或 permissive 那就是关闭了
+如果输出 enforcing 那就是开启了 selinux
+
+1、临时关闭selinux
+setenforce 0    ##设置SELinux 成为permissive模式
+setenforce 1    ##设置SELinux 成为enforcing模式
+
+2、永久关闭selinux,
+修改/etc/selinux/config 文件
+将SELINUX=enforcing改为SELINUX=disabled
+重启机器即可

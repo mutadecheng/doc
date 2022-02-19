@@ -1,0 +1,64 @@
+https://www.runoob.com/docker/centos-docker-install.html
+
+#(x.1)移除旧的版本
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+
+
+#安装一些必要的系统工具
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+
+#添加软件源信息
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+#更新 yum 缓存
+sudo yum makecache fast
+
+#安装 Docker-ce：
+sudo yum -y install docker-ce
+
+
+#启动 Docker
+sudo systemctl start docker
+
+
+#设置开机启动
+sudo systemctl enable docker
+
+
+-----------------------------------------
+#镜像加速 在配置文件/etc/docker/daemon.json 中加入（没有则创建）：
+{
+  "registry-mirrors": ["https://d8b3zdiw.mirror.aliyuncs.com","https://hub-mirror.c.163.com"]
+}
+
+#reload配置文件
+systemctl daemon-reload
+
+#重启docker服务
+systemctl restart docker
+
+
+---------------------------------------------------------------------------------------------------------------------------
+CentOS7 卸载Docker
+https://blog.csdn.net/zsgcsdn/article/details/79539689
+
+#1.查询安装过的软件包
+yum list installed | grep docker
+
+docker-client.x86_64            2:1.13.1-53.git774336d.e17.centos
+docker-common.x86_x64     2:1.13.1-53.git774336d.e17.centos
+
+#2.删除安装的软件包
+yum -y remove docker-client.x86_64
+yum -y remove docker-common.x86_x64
+ 

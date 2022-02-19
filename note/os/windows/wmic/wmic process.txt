@@ -1,0 +1,13 @@
+https://blog.csdn.net/swazer_z/article/details/60100596
+https://www.cnblogs.com/archoncap/p/5400769.html
+
+
+//查看端口映射
+wmic process where "caption='dotnet.exe' and commandline like '%PortForward.dll%'" get caption,commandline /value
+
+
+//关闭端口映射
+wmic process where "caption='dotnet.exe' and commandline like '%PortForward.dll%'" call terminate 
+
+//关闭端口映射
+wmic process where "caption='dotnet.exe' and commandline like '%PortForward.dll%'" delete

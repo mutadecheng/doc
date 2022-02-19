@@ -1,0 +1,29 @@
+
+--------------------------
+1.安装rar解压软件
+https://www.jianshu.com/p/5a5f17e4a911
+
+cd /data/app
+tar -zxvf rarlinux-x64-5.3.0.tar.gz 
+
+cd rar
+make
+
+
+//2 解压 test.rar 到当前目录
+cd /home/wmts
+rar x L00-L10.rar
+
+---------------------------------
+卸载rar软件
+http://blog.sina.com.cn/s/blog_4829b9400100pb97.html
+
+方式一：
+cd /data/app/rar
+make uninstall
+
+方式二：rm这个文件关联的文件，比如安装在opt/rar
+rm -rf /opt/rar
+rm -rf /usr/local/bin/rar
+rm -rf /usr/local/bin/unrar
+rm -rf /data/app/rar

@@ -1,0 +1,6 @@
+
+---------------------------------------------------------
+Centos 为普通用户和root增加登录脚本
+https://blog.csdn.net/rocklee/article/details/38864623
+
+ 在/etc/profile里面增加需要登录后执行的脚本，对于普通用户来说有效，但是root不起效，后来查看脚本的来龙去脉，发现修改/etc/bashrc，对所有用户均有效，从远程用普通用户登录然后su到root，切换后也会执行/etc/bashrc。

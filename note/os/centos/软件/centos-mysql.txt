@@ -1,0 +1,49 @@
+https://www.cnblogs.com/huangxinyuan650/p/6360464.html
+https://www.cnblogs.com/xiangxi/p/6267378.html
+
+执行命令：
+
+yum -y install wget
+wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm 
+rpm -ivh mysql-community-release-el7-5.noarch.rpm
+sudo yum install mysql-server
+
+#文件权限
+sudo chown -R root /var/lib/mysql
+
+重启服务重新直接登录root用户
+service mysqld restart
+mysql -u root　
+这样就会进入到mysql服务，也就是我们常用的mysql命令行，这时就要来修改root用户的密码了
+use mysql;
+update user set password=password('123456') where user='root';
+
+
+#接着对系统数据库的root账户设置远程访问的密码，与本地的root访问密码并不冲突。
+grant all privileges on *.* to 'root'@'%' identified by '123456' with grant option; 
+#123456为你需要设置的密码
+
+flush privileges;
+
+eixt
+ 
+
+
+4.重启mysql：
+service mysql restart
+
+
+
+
+---------------------------------------------------
+CentOS下MySQL忘记root密码解决方法 
+
+https://www.cnblogs.com/sbaicl/articles/3132010.html
+
+
+
+
+
+
+ 
+

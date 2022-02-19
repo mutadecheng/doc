@@ -1,0 +1,23 @@
+官网 https://www.rollupjs.com
+
+
+https://blog.csdn.net/guduyibeizi/article/details/102802501
+
+rollup配置项
+https://www.jianshu.com/p/499bd3b93138?utm_campaign=maleskine
+
+::安装
+npm install rollup --global
+
+
+
+:: 配置文件rollup.config.js
+rollup -c
+
+
+
+
+::打包文件
+rollup B4C_es6_1.0/B4C.js  -o B4C_es5_1.0/B4C.js -f iife
+
+ 

@@ -1,0 +1,126 @@
+
+
+/* 	vSys.1
+	17-04-10 10:48	王志雷
+	创建存储过程 Proc_S_TableStruct
+	功能：获取表的结构信息
+	参数：   @tbName varchar(100)	表明，例如 'T_User'
+	Demo：	exec dbo.Proc_S_TableStruct 'T_User'
+*/
+--vSys.1.(1) 删除存储过程
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[Proc_S_TableStruct]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure Proc_S_TableStruct; 
+	  
+/*GO*/
+GO
+ 
+/* 	vSys.1.(2)
+	17-04-10 10:48	王志雷
+	创建存储过程 Proc_S_TableStruct
+	功能：获取表的结构信息
+	参数：   @tbName varchar(100)	表明，例如 'T_User'
+	Demo：	exec dbo.Proc_S_TableStruct 'T_User'
+*/
+Create Procedure  Proc_S_TableStruct 
+	@tbName varchar(100)
+AS
+begin
+
+
+--declare @tbName varchar(100); set @tbName = 'T_User'
+
+--(1) 获取字段基础信息
+ 
+create table #Proc_S_TableStruct_MShelpcolumns(
+[col_name] varchar(200)
+,[col_id] int
+,[col_typename] varchar(200)
+,[col_len] int
+,[col_prec] varchar(200)
+,[col_scale] varchar(200)
+,[col_basetypename] varchar(200)
+,[col_defname] varchar(200)
+,[col_rulname] varchar(200)
+,[col_null] int
+,[col_identity] int
+,[col_flags] int
+,[col_seed] int
+,[col_increment] int
+,[col_dridefname] varchar(200)
+,[text] text --列名重复
+,[col_iscomputed] varchar(200)
+,[col_text] varchar(200) --与text列名重复改为col_text
+,[col_NotForRepl] int
+,[col_fulltext] int
+,[col_AnsiPad] int
+,[col_DOwner] int
+,[col_DName] varchar(200)
+,[col_ROwner] int
+,[col_RName] varchar(200)
+,[collation] varchar(200)
+,[ColType] varchar(200)
+,[column1] int --无列名
+,[column2] int --无列名
+)
+
+insert into #Proc_S_TableStruct_MShelpcolumns  exec sp_MShelpcolumns @tbName
+  
+ 
+select [col_id]
+,[col_name]
+,col_typename,col_len
+,col_identity,col_seed,col_increment
+,collation         
+,col_null         
+,[text] col_DefaultValue,col_dridefname [ConstraintName_DefaultValue]  
+
+into #Proc_S_TableStruct_Col
+from #Proc_S_TableStruct_MShelpcolumns;
+
+drop  table #Proc_S_TableStruct_MShelpcolumns;
+ 
+
+
+
+
+
+--（2）  获取字段的备注
+select objname [col_name],[value] [ExtendedProperty] into #Proc_S_TableStruct_Property  from ::fn_listextendedproperty(null,N'user',N'dbo',N'table',@tbName,N'column',null) where 1=1
+
+
+--（3） CONSTRAINT_TYPE：  'PRIMARY KEY' 和 'UNIQUE'
+select  t1.COLUMN_NAME [col_name],t2.CONSTRAINT_TYPE ,t1.Constraint_Name
+into #Proc_S_TableStruct_Constraint
+from information_schema.key_column_usage t1 
+left join information_schema.table_constraints t2 on t1.Constraint_Name=t2.Constraint_Name 
+where t1.TABLE_NAME=@tbName
+
+
+
+select c.*
+,p.[ExtendedProperty]
+,conPrimary.Constraint_Name [ConstraintName_PrimaryKey]
+,conUnique.Constraint_Name [ConstraintName_Unique]
+from  #Proc_S_TableStruct_Col c
+left join #Proc_S_TableStruct_Property p on c.[col_name]=p.[col_name]
+left join #Proc_S_TableStruct_Constraint conPrimary on c.[col_name]=conPrimary.[col_name] and conPrimary.[CONSTRAINT_TYPE]='PRIMARY KEY'
+left join #Proc_S_TableStruct_Constraint conUnique on c.[col_name]=conUnique.[col_name]  and conUnique.[CONSTRAINT_TYPE]='UNIQUE'
+
+
+--select * from  #Proc_S_TableStruct_Col;
+--select * from  #Proc_S_TableStruct_Property;
+--select * from   #Proc_S_TableStruct_Constraint;
+
+
+
+drop  table #Proc_S_TableStruct_Col;
+drop  table #Proc_S_TableStruct_Property;
+drop  table #Proc_S_TableStruct_Constraint;
+
+
+
+
+
+
+
+end

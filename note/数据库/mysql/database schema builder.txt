@@ -1,0 +1,67 @@
+-- https://dev.mysql.com/doc/refman/8.0/en/show-create-view.html
+-- https://www.cnblogs.com/saneri/p/6963583.html
+
+-- (x.1)获取MySQL版本
+select @version := version();
+select concat('-- mysql version: ', @version);
+
+
+-- (x.2)获取数据库名称 
+select @dbName := database();
+-- select @dbName;
+
+-- (x.3)获取建库语句
+SET @sqlStmt = concat('SHOW CREATE DATABASE ', @dbName); 
+-- select @sqlStmt;
+PREPARE stmt FROM @sqlStmt;   -- 预处zhuan理需要执行的动态SQL，其中stmt是一个变量
+EXECUTE stmt;                 -- 执行SQL语句
+deallocate prepare stmt;      -- 释放掉预处理段
+
+ 
+-- (x.4)获取建表语句
+
+-- show tables;
+-- SHOW CREATE table t1;
+
+
+declare TableName varchar(64);   
+ 
+DECLARE cur_FountTable CURSOR FOR SELECT TABLE_NAME FROM information_schema.TABLES ;
+DECLARE EXIT HANDLER FOR not found CLOSE cur_FountTable;
+#打开游标
+OPEN cur_FountTable;
+REPEAT
+	FETCH cur_FountTable INTO TableName;
+	SET @SQLSTR1 = CONCAT('SHOW CREATE table ',TableName,';');
+	PREPARE STMT1 FROM @SQLSTR1;
+	EXECUTE STMT1;
+
+	DEALLOCATE PREPARE STMT1;    
+
+	UNTIL 0 END REPEAT;
+#关闭游标
+CLOSE cur_FountTable;
+
+
+
+
+
+-- mysql 遍历所有表并条件查询
+-- https://www.cnblogs.com/wangzuofei/p/6437896.html
+
+-- ---------------------------------------
+-- 最大连接数
+show variables like '%max_connections%'; 
+
+-- 当前连接数
+show full processlist;
+
+
+ 
+
+
+
+
+
+
+show full processlist;

@@ -56,7 +56,7 @@ docker rm mysql80 -f
 
 
 #进入容器执行命令
-docker  exec -it mysql80 bash
+docker exec -it mysql80 bash
 
 mysql -u root -p
 123456

@@ -1,0 +1,28 @@
+Centos 软连接和硬链接
+https://www.cnblogs.com/SapphireCastle/p/6395141.html
+
+ 
+
+1.软链接：
+#将/usr/local/node-v4.2.6-linux-x86/bin/下的node映射到/usr/local/bin/下的node
+#建立软链接
+ln -s /usr/local/node-v4.2.6-linux-x86/bin/node /usr/local/bin/node
+ 
+#删除软链接
+rm -rf /usr/local/bin/node
+
+ 
+
+2.硬链接：
+#将/usr/local/node-v4.2.6-linux-x86/bin/下的node映射到/usr/local/bin/下的node
+#建立硬链接
+ln /usr/local/node-v4.2.6-linux-x86/bin/node /usr/local/bin/node
+
+#删除硬链接
+rm -rf /usr/local/bin/node
+
+
+
+linux的软链接和硬链接删除都不会影响原始文件，但是修改的话都会影响原始文件。
+linux的软链接相当于windows里的快捷方式，快捷方式删了就删了，原来文件还是存在的。
+linux的硬链接的特点就是，链接文件和原始文件只要有一个存在，文件就会存在，不会消失。（你删除源文件，依然可以在连接文件里打开）。但是软链接可以跨系统，这点硬链接不行。

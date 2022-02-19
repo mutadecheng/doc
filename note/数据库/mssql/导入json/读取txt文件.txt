@@ -1,0 +1,40 @@
+ 
+--(x.1)读取json文件内容
+print('(x.1)读取json文件内容')
+create table tmp_text (lines text) 
+bulk insert tmp_text from N'T:\extrasData.json'
+-- select * from tmp_text 
+
+declare @json varchar(max);
+
+set @json =(select top 1 lines from tmp_text)
+drop table tmp_text 
+
+-- select @json
+
+
+-- (x.2)解析json
+print('(x.2)解析json')
+Select * into #tb from 
+parseJSON(@json) 
+
+
+--select * from #tb 
+
+
+-- (x.3)du解析json
+print('(x.2)解析json')
+declare @objId int;
+set @objId =(select top 1 [Object_ID] from #tb where Name='bimProp') 
+--select @objId
+
+
+select  item.[Object_ID] ,name.StringValue as name,id.StringValue as id
+into itemFromJson
+from #tb item 
+left join #tb name on item.[Object_ID]=name.parent_ID and name.Name='N'
+left join #tb id on item.[Object_ID]=id.parent_ID  and id.Name='I'
+ where item.parent_ID=@objId;
+ 
+  
+drop table #tb;

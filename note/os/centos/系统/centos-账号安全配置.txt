@@ -1,0 +1,27 @@
+设置密码策略
+https://www.cnblogs.com/zhongguiyao/p/8258559.html
+
+ 
+
+1密码限制
+//设置最小密码长度。
+authconfig --passminlen=8 --update
+//grep "^minlen" /etc/security/pwquality.conf
+
+//新密码中至少需要一个小写字符
+authconfig --enablereqlower --update
+//新密码中至少需要一个大写字符
+ authconfig --enablerequpper --update
+//新密码中至少需要一位数字
+authconfig --enablereqdigit --update
+//新密码中至少需要一个其他字符
+authconfig --enablereqother --update
+
+
+//修改配置文件/etc/pam.d/system-auth-ac，写入策略
+//设定锁定的阈值为5次- 锁定时间为30分钟即1800秒
+auth        required      pam_tally2.so even_deny_root deny=5 unlock_time=1800
+
+
+2.修改密码命令
+passwd lith

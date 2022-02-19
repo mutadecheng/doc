@@ -50,7 +50,7 @@ docker rm consul -f
 
 
 #进入容器执行命令
-docker  exec -it consul bash 
+docker exec -it consul bash 
 
 
 ```
