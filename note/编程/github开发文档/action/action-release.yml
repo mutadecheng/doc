@@ -1,0 +1,85 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push tag
+  push:
+    tags:
+      - '*'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: Release-Init
+        run: |
+           echo assertContent >> ./a.zip
+           filePath="./a.zip"
+           name=Vit.Library
+           version=2.5
+           
+           fileType="${filePath##*.}"
+           echo "release_name=${name}-${version}" >> $GITHUB_ENV
+           echo "release_tag=${version}" >> $GITHUB_ENV
+
+           echo "release_draft=true" >> $GITHUB_ENV
+           echo "release_prerelease=false" >> $GITHUB_ENV
+
+           echo "release_body=Changes in this Release  - First Change  - Second Change        \ndd\n\t       88           gg           " >> $GITHUB_ENV
+           
+           echo "release_assetPath=${filePath}" >> $GITHUB_ENV
+           echo "release_assetName=${name}-${version}.${fileType}" >> $GITHUB_ENV
+           echo "release_contentType=application/${fileType}" >> $GITHUB_ENV
+           
+           # draft or preivew
+           if [[ $version =~ "preview" ]]
+           then
+             echo preivew
+             echo "release_prerelease=true" >> $GITHUB_ENV
+           else
+             if  [[ "" = $(echo $version | tr -d "0-9\.") ]]
+             then
+               echo release
+             else
+               echo draft
+               echo "release_draft=true" >> $GITHUB_ENV
+             fi
+           fi
+            
+      - name: Release-Create
+        id: create_release
+        uses: actions/create-release@v1
+        if: hashFiles(env.release_assetPath)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_name: ${{ env.release_name }}
+          tag_name: ${{ env.release_tag }}
+          draft: ${{ env.release_draft }}
+          prerelease: ${{ env.release_prerelease }}
+          body: ${{ env.release_body }}
+      - name: Release-Upload
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        if: hashFiles(env.release_assetPath)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a   `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ${{ env.release_assetPath }}
+          asset_name: ${{ env.release_assetName }}
+          asset_content_type: ${{ env.release_contentType }}

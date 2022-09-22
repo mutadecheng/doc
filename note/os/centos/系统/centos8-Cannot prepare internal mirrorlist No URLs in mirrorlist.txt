@@ -1,0 +1,14 @@
+﻿# Cannot prepare internal mirrorlist No URLs in mirrorlist
+> https://blog.csdn.net/AlexanderRon/article/details/123400906
+
+
+
+sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
+
+sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
+
+
+#测试
+yum install -y yum-utils
+
+

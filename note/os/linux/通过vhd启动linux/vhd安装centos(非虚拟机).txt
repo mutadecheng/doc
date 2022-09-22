@@ -1,0 +1,67 @@
+vhd安装centos(非虚拟机)
+> https://blog.csdn.net/qq_41827547/article/details/88970773 安装Linux、windows的vhd系统指南
+> http://www.360doc.com/content/19/0518/12/1181887_836499603.shtml 安装Linux、windows的vhd系统指南
+
+
+1.通过虚拟机安装centos到vhd文件
+
+(x.1)创建的vhd文件必须为固定大小的。
+(x.2)配置分区
+	（x.x.1）勾选“我要配置分区”,点击“完成”
+	（x.x.2）配置（根分区）
+		（x.x.x.1）分区方案选择“标准分区”，点击“+”
+		（x.x.x.2）添加新挂载点弹框 中挂载点 填写 "/",期望容量酌情填写，点击“添加挂载点”
+		（x.x.x.3）文件系统选择“ext3”
+	（x.x.3）配置（swap）
+		（x.x.x.1）分区方案选择“标准分区”，点击“+”
+		（x.x.x.2）添加新挂载点弹框 中挂载点 填写"swap",期望容量酌情填写，点击“添加挂载点”
+		（x.x.x.3）文件系统选择“swap”
+	（x.x.4）点击“完成”，弹框点击“确认”（或者 alt + a）
+(x.3)配置网络
+打开网络
+
+(x.4)等待安装完成
+
+(x.5)复制引导文件到vhd内部
+	(x.x.1)拷贝文件file.tar.gz到目录 lib/modules
+	(x.x.2)解压
+		cd /lib/modules
+		tar -zxvf file.tar.gz
+	(x.x.3)设置755权限
+		chmod 755 -R /lib/modules/4.13.0-36-generic
+
+
+
+
+2.EFI引导
+引导使用grub2方式
+
+(x.1)DiskGenius格式化硬盘
+格式化，勾选创建新ESP分区
+
+(x.2)拷贝EFI引导文件
+解压EFI.zip文件并拷贝到 esp分区的根路径(第一个分区)
+
+(x.3)修改x64.cfg配置文件
+修改配置文件(/EFI/grub/x64.cfg)配置启动项，酌情修改。(参见http://www.jinbuguo.com/linux/grub.cfg.html)
+注：
+(x.x.1)vhd文件路径（/centos/c7dvd.vhd） 必须修改为正确的vhd文件路径。（会自动搜索所有磁盘查找vhd文件）
+(x.x.1)kroot=/dev/mapper/loop0p1
+	（这个2应该改为你的根分区“/”所在顺序，若你分了三个主分区，根分区在中间就是2，使用diskgenius即可查看根分区的位置）
+
+
+3.复制vhd文件和引导到物理机
+(x.1)复制文件（3个）
+复制vhd文件 和 文件夹“放到vhd同级目录中”中的两个文件 到物理机硬盘分区（任一）中的文件夹/centos中
+
+(x.2)重启系统，物理机即进入vhd中的centos
+ 
+
+
+
+
+
+
+
+
+

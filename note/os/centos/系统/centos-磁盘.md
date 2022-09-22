@@ -19,6 +19,12 @@ umount  /dev/sdb1
 ll /dev/disk/by-path
 
 
+
+#查看磁盘挂载情况
+lsblk
+lsblk -f 
+
+
 ------------------------------------------------------------------------------------
 #挂载ntfs分区
 https://blog.csdn.net/baidu_41617231/article/details/90666474
@@ -86,12 +92,41 @@ ln -s /usr/a/node /usr/b/node
 #删除软链接
 rm -rf /usr/b/node
 
+------------------------------------------------------------------------------------
+# parted 磁盘分区
+> https://www.cnblogs.com/my-show-time/p/15260739.html
+> https://blog.csdn.net/ora_g/article/details/107046047
+
+#安装
+apt-get install parted
+
+#指定磁盘进行分区
+parted /dev/sda
+#创建gpt分区表
+mklabel gpt
+#查看分区表信息
+print
+
+#一键分区(分区名称 文件系统格式 起始位置 结束位置)
+mkpart fun4t ext4 0% 100%
+
+#交互式分区
+(parted) mkpart                                                           
+Partition name?  []? fun4t                                                
+File system type?  [ext2]? ext4                                           
+Start? 0%                                                                 
+End? 100%                                                                 
+(parted) print
+
+#退出
+quit
 
 ------------------------------------------------------------------------------------
-#磁盘分区
+#fdisk 磁盘分区
 https://www.jianshu.com/p/46602774e7ca
 
- fdisk /dev/vdb  
+fdisk /dev/sda
+
 常用命令： 
 n：创建新分区 
 d：删除已有分区
@@ -113,7 +148,8 @@ mkfs[tab][tab]
 mkfs -t ext3 /dev/sdb
 
 #创建Ext4文件系统
-mkfs -t ext4 /dev/sdc1
+mkfs.ext4 /dev/sda1
+#mkfs -t ext4 /dev/sdc1
 
 
 ------------------------------------------------------------------------------------
@@ -123,3 +159,52 @@ mkfs -t ext4 /dev/sdc1
 ## 修复方法
 fdisk -l
 fsck -y /dev/sdb1
+
+
+
+------------------------------------------------------------------------------------
+# 获取磁盘读写状态
+
+yum install sysstat
+
+iostat -dm
+
+#输出运行中的磁盘
+IFS=$'\n'
+for line in `iostat -dm`;
+do  
+	echo $line | awk '{if ( $3~/^([0-9\.])+$/ && $3>0 && $4>=0) print $1}'
+done
+
+#输出运行中的磁盘
+for disk in `iostat -dm | awk '{if ( $3~/^([0-9\.])+$/ && $3>0 && $4>=0) print $1}'`;
+do  
+	echo $disk
+done
+
+
+
+------------------------------------------------------------------------------------
+# smart
+> https://blog.csdn.net/carefree2005/article/details/120718994 Linux命令之smartctl命令
+> https://blog.csdn.net/labkill/article/details/119849857  硬盘SMART检测参数详解
+
+#输出所有磁盘
+smartctl --scan
+
+#输出磁盘温度
+smartctl  -a /dev/sda |grep -i Temperature_Celsius | awk '{print $10}'
+
+#输出所有磁盘的温度
+for diskName in $(smartctl --scan | awk '{print $1}')
+do
+	#echo $diskName
+	echo "$diskName $(smartctl -a $diskName |grep -i Temperature_Celsius |awk '{print $10}')"
+done
+
+
+#输出运行中磁盘的温度
+for disk in `iostat -dm | awk '{if ( $3~/^([0-9\.])+$/ && $3>0 && $4>=0) print $1}'`;
+do  
+	echo "node_disk_temperature_now{device=\"$disk\"} $(smartctl -a /dev/$disk |grep -i Temperature_Celsius |awk '{print $10}')"
+done

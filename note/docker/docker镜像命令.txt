@@ -17,14 +17,14 @@ docker rmi sers/dotnet/servicecenter:v1.2.0 -f
 docker rmi $(docker images -q -f dangling=true)
 
 
-#强制删除镜像名称中包含“sers”的镜像
+#强制删除镜像名称中包含sers的镜像
 docker rmi --force $(docker images | grep sers | awk '{print $3}')
 --------------------------------------------------------------------------------
 
-#停止名称中包含“mc”的容器
+#停止名称中包含mc的容器
 docker stop $(docker ps -a | grep mc | awk '{print $1}')
 
-#停止所有的container，这样才能够删除其中的images：
+#停止所有的container，这样才能够删除其中的images
 docker stop $(docker ps -a -q) 
 
 #删除所有container（容器）

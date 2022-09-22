@@ -1,0 +1,22 @@
+global:
+  scrape_interval:     60s          # 默认抓取间隔
+  evaluation_interval: 60s
+  external_labels:
+    monitor: 'codelab-monitor'
+
+# 抓取对象的配置
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          instance: prometheus
+ 
+  - job_name: linux
+    static_configs:
+      - targets: ['exporter:9100']
+        labels:
+          instance: main
+ 
+
+

@@ -1,0 +1,70 @@
+# 软件包组
+> https://blog.csdn.net/haveqing/article/details/105109420
+
+
+
+#列出可用的软件包组
+dnf group list
+
+
+#查看已安装组、可用组、可用环境组以及已安装和可用语言组
+dnf groups summary
+
+
+
+
+#安装 服务器 软件包组
+dnf group install "Server" -y
+
+
+
+
+
+
+
+
+Available Environment Groups:
+   Server with GUI
+   Server
+   Workstation
+   Virtualization Host
+   Custom Operating System
+Installed Environment Groups:
+   Minimal Install
+Available Groups:
+   Container Management
+   .NET Core Development
+   RPM Development Tools
+   Development Tools
+   Graphical Administration Tools
+   Headless Management
+   Legacy UNIX Compatibility
+   Network Servers
+   Scientific Support
+   Security Tools
+   Smart Card Support
+   System Tools
+
+
+可用环境组：
+   带 GUI 的服务器
+   服务器   
+   工作站
+   虚拟化主机
+   定制操作系统
+已安装的环境组：
+   最小安装
+已安装组：
+可用组：
+   容器管理
+   .NET 核心开发
+   RPM 开发工具
+   开发工具
+   图形管理工具
+   无头系统管理
+   传统 UNIX 兼容性
+   网络服务器
+   科学记数法支持
+   安全性工具
+   智能卡支持
+   系统工具

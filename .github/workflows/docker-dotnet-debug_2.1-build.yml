@@ -31,7 +31,7 @@ jobs:
            export DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME  }}"
            export DOCKER_PASSWORD="${{ secrets.DOCKER_PASSWORD }}"
 
-           cd ./docker/dotnet-debug/docker-image
+           cd ./docker/Environment/dotnet-debug/docker-image
            
            
            echo "(x.1)登录"

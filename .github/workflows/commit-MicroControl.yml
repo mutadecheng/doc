@@ -32,7 +32,7 @@ jobs:
            export GIT_SSH_SECRET="${{ secrets.GIT_SSH_SECRET }}"
 
 
-           SVN_URL=svn://${SVN_SERVER}/2022LithProject/MicroControl/MicroControl/MicroControl
+           SVN_URL=svn://${SVN_SERVER}/2022LithProject/MicroControl/MicroControl
            GIT_URL=git@github.com:serset/MicroControl.git
            
            

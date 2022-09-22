@@ -1,0 +1,6 @@
+rsync -rtvP /srv/dev-disk-by-uuid-0001043F0004DD59/movie/moved/temp/  /srv/dev-disk-by-uuid-7a400ae4-a41d-4e1f-928a-409131109ee4/fun4/movie/temp/
+
+
+参数  -r  表示递归，即它将复制源文件夹的内容以及其中的每个文件夹的内容。
+参数  -t  使rsync 保留从源文件夹复制的文件的修改时间。
+参数  -v  表示冗长，此参数将打印有关命令执行的信息，例如已成功传输的文件，因此我们可以使用它作为跟踪rsync进度的方式。

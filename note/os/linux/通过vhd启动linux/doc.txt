@@ -1,0 +1,17 @@
+
+#VM虚拟机里Ubuntu18引导修改
+https://www.cnblogs.com/wutou/p/14366476.html
+
+
+
+#vhd虚拟机安装linux
+> https://blog.csdn.net/weixin_30565101/article/details/116675035
+
+#initrd.img的压缩(制作)及解压的过程
+> https://www.cnblogs.com/klb561/p/9147577.html
+
+
+
+
+
+

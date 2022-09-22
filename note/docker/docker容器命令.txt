@@ -23,6 +23,10 @@ docker exec -it dotnet1.2.0 /bin/sh
 #运行容器，在断开后自动关闭并清理
 docker run --rm -it busybox /bin/sh
 
+
+#查看所有容器的资源占用
+docker stats
+
 ---------------------------------------
 #文件复制
 
@@ -33,6 +37,12 @@ docker cp registry-web:/opt/testnew/file.txt /opt/test/
 docker cp /opt/test/file.txt registry-web:/opt/testnew/
  
  
+#赋予所有权
+chmod 777 -R /root/docker/nextcloud/nextcloud/html/custom_apps
+
+#改变拥有者为指定的用户或组
+#chown [-cfhvR] user[:group] file...
+chown -R 33:33 /root/docker/nextcloud/nextcloud
 
 ---------------------------------------
 (--name 容器名称，可自定义)
@@ -44,11 +54,15 @@ docker cp /opt/test/file.txt registry-web:/opt/testnew/
 cd /root/docker/ServiceCenter
 
 docker run --name=servicecenter --restart=always -d \
+--privileged=true \
 -p 4580:4580 -p 4501:4501 \
 -v /etc/localtime:/etc/localtime \
 -v $PWD/appsettings.json:/root/app/ServiceCenter/appsettings.json \
 -v $PWD/Logs:/root/app/ServiceCenter/Logs \
 -v $PWD/Data:/root/app/ServiceCenter/Data \
+--device=/dev/video0:/dev/video0 \
+--device=/dev/dri \
+-e TZ=Asia/Shanghai \
 serset/servicecenter
 
 ---------------------------------------
@@ -74,30 +88,3 @@ docker restart app1
 #删除容器
 docker rm app1 -f
 
-
----------------------------------------
-docker安装时会产生一个叫docker 0的linux bridge（一个虚拟网桥）
-不对--network参数进行指定的容器默认都会挂在这上面。通过bridge容器间可以进行网络连通
-
-
-#查看网桥配置
-docker network inspect bridge
-
-
-
-#Command	Description
-docker network connect	Connect a container to a network
-docker network create	Create a network
-docker network disconnect	Disconnect a container from a network
-docker network inspect	Display detailed information on one or more networks
-docker network ls		List networks
-docker network prune	Remove all unused networks
-docker network rm		Remove one or more networks
-
----------------------------------------
-关于对docker run --link的理解
-https://www.jianshu.com/p/21d66ca6115e
-#  --link selenium_hub:hub
-# selenium_hub 和 hub作为容器的hostname，node用这2个名字中的哪一个都可以访问
-
-docker run -d --name node --link selenium_hub:hub selenium/node-chrome-debug

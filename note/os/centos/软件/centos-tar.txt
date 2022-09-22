@@ -8,6 +8,9 @@
 tar cvpzf /root/backup/backup.tgz --exclude=/root/backup --exclude=/sys --exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/srv  /
  
 
+#要还原的磁盘上
+rm -rf  ./
+
 #恢复系统
 tar xvpfz backup.tgz -C /
 #创建被排除的目录
@@ -15,6 +18,9 @@ mkdir proc
 mkdir lost+found
 mkdir mnt
 mkdir sys
+
+
+
 #恢复文件属性
 restorecon -Rv /
 
@@ -45,6 +51,10 @@ tar xvpfz mc.tgz
 #备份文件夹(记录绝对路径)
 tar cvpzf /root/docker.tgz   /root/docker
 
-#还原文件夹
+#还原到当前目录
 cd /
 tar xvpfz /root/docker.tgz
+
+#还原到指定目录
+mkdir -p /root/temp/docker
+tar xvpfz /root/docker.tgz -C /root/temp/docker

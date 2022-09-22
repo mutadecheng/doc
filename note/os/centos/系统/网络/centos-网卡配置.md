@@ -48,38 +48,49 @@ ONBOOT="yes"             #是否开机启用
 reboot
 -----------------------------------------------
 https://www.cnblogs.com/feiquan/p/9228066.html
-
-#1.查看当前网卡
-nmcli connection show
-
-#2.重命名网卡配置文件
-cd /etc/sysconfig/network-scripts
-ls
-mv ifcfg-main1 ifcfg-eno4
-
-#3.修改网卡配置文件
-nano /etc/sysconfig/network-scripts/ifcfg-main
-# 将NAME和DEVICE由eno1改为main 
-sed -i 's/main1/eno4/' /etc/sysconfig/network-scripts/ifcfg-eno4
-
-#重启network服务
-#systemctl restart network
-nmcli c reload
------------------------------------------------
 https://www.cnblogs.com/nj-duzi/p/13794705.html
 
 #1.查看当前网卡
 nmcli connection show
-enp0s8
+
+
 #2.创建配置enp0s9
 nmcli connection add type ethernet con-name enp0s9 ifname enp0s9
 nmcli connection show
 
+#启用网卡
+nmcli c up enp0s9
+
+#关闭网卡
+nmcli c down enp0s9
+
+
 #3.删除ens33连接
 nmcli connection delete enp0s9
 
-#4修改配置文件中的网卡名
+
+#4.重启network服务
+#systemctl restart network
+nmcli c reload
+
+
+
+
+#5.修改配置文件中的网卡名
 sed -i 's/enp0s8/main/' /etc/sysconfig/network-scripts/ifcfg-main
+
+
+
+#6.重命名网卡配置文件
+cd /etc/sysconfig/network-scripts
+ls
+mv ifcfg-main1 ifcfg-eno4
+
+#7.修改网卡配置文件
+nano /etc/sysconfig/network-scripts/ifcfg-main
+# 将NAME和DEVICE由eno1改为main 
+sed -i 's/main1/eno4/' /etc/sysconfig/network-scripts/ifcfg-eno4
+
 
 
 #备份配置文件

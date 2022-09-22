@@ -14,8 +14,6 @@ rpm --import https://www.virtualbox.org/download/oracle_vbox.asc
 dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
 
 
-
-
 #(x.2)安装 VirtualBox 构建工具和依赖项
 dnf install binutils kernel-devel kernel-headers libgomp make patch gcc glibc-headers glibc-devel dkms -y
 
