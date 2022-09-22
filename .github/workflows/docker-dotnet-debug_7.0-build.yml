@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: docker-dotnet-debug_6.0-build
+name: docker-dotnet-debug_7.0-build
 
 # Controls when the action will run. 
 on:
@@ -8,7 +8,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   repository_dispatch:
-    types: docker-dotnet-debug_6.0-build
+    types: docker-dotnet-debug_7.0-build
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -39,20 +39,20 @@ jobs:
            
                       
            echo "(x.2)get version"
-           version=`docker run -i --rm mcr.microsoft.com/dotnet/sdk:6.0 dotnet --info | grep Version | head -n 1`
+           version=`docker run -i --rm mcr.microsoft.com/dotnet/sdk:7.0 dotnet --info | grep Version | head -n 1`
            version=`echo ${version#*:} | sed 's/ //g'`
            echo $version
            
 
            echo "(x.3)构建镜像"
-           cd dotnet-debug_6.0
-           docker build -t serset/dotnet-debug:6.0 -t serset/dotnet-debug:$version -t serset/dotnet:debug-6.0 -t serset/dotnet:debug-$version .
+           cd dotnet-debug_7.0
+           docker build -t serset/dotnet-debug:7.0 -t serset/dotnet-debug:$version -t serset/dotnet:debug-7.0 -t serset/dotnet:debug-$version .
            cd ..
            
            echo "(x.4)推送到镜像仓库" 
-           docker push serset/dotnet-debug:6.0
+           docker push serset/dotnet-debug:7.0
            docker push serset/dotnet-debug:$version
-           docker push serset/dotnet:debug-6.0
+           docker push serset/dotnet:debug-7.0
            docker push serset/dotnet:debug-$version
            
            
